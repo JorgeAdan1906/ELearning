@@ -5,9 +5,9 @@
     <session-factory>
         <!-- JDBC Database connection settings -->
         <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-        <property name="connection.url">jdbc:sqlserver://localhost:1433;database=DBElearning</property>
+        <property name="connection.url">jdbc:sqlserver://localhost:1433;database=DBElearningAct</property>
         <property name="connection.username">sa</property>
-        <property name="connection.password">sasa</property>
+        <property name="connection.password">root</property>
         <!-- JDBC connection pool settings ... using built-in test pool -->
         <property name="connection.pool_size">1</property>
         <!-- Select our SQL dialect -->

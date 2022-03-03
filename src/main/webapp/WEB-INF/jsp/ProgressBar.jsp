@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Mis Cursos</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -21,6 +22,12 @@
         <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <style>
+            .body1 {
+                font-family: 'Varela Round', sans-serif;
+                justify-content: center;
+                background:  #EAECE8;
+            }
+            
             h1{
                 text-align: center;
                 display: inline-block;
@@ -71,6 +78,9 @@
                 background: #B15D28;
                 color: white;
             }
+            #DivSCursos img{
+                width: 50%;
+            }
             /*propiedad responsive*/
             @media(max-width:820px){
                 h1::after,h1::before{
@@ -91,6 +101,9 @@
                     display: inline-block;
                 }
 
+                #DivSCursos img{
+                    width: 80%;
+                }
             }
         </style>
     </head>
@@ -131,8 +144,13 @@
         <br>
     <center><h1>Mis Cursos</h1></center>
     <div id="progressB">
+        <script>
+            var VarSCursos;
+        </script>
         <c:forEach var="miCurso" items="${progreso}"> 
             <script>
+                VarSCursos = ${miCurso.progreso};
+                
                 var ProgressB${miCurso.idCurso} = ${miCurso.progreso};
             </script>
         </c:forEach>
@@ -179,6 +197,11 @@
             </script>
         </c:forEach>
     </div>
+    <center>
+        <div id="DivSCursos">
+            <img src="${pageContext.request.contextPath}/resources/imagenes/divScursos.png">
+        </div>
+    </center>
     <br>
     <br>
     <br>
@@ -215,6 +238,13 @@
     </footer>
 </body>
 <script>
+    $(function () {
+        if (VarSCursos != "undefined" && VarSCursos != null && VarSCursos != "")
+            document.getElementById('DivSCursos').style.display = 'none';
+        else
+            document.getElementById('DivSCursos').style.display = 'block';
+    });
+    
     function cerrarSession() {
 
         $(location).attr('href', "cerrarSession.html")

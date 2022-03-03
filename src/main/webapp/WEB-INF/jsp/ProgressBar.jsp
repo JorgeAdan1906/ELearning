@@ -239,7 +239,7 @@
 </body>
 <script>
     $(function () {
-        if (VarSCursos != "undefined" && VarSCursos != null && VarSCursos != "")
+        if (VarSCursos != "undefined" || VarSCursos != null || VarSCursos != "")
             document.getElementById('DivSCursos').style.display = 'none';
         else
             document.getElementById('DivSCursos').style.display = 'block';

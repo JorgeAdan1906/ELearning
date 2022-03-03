@@ -43,7 +43,7 @@
    background: rgba(0, 0, 0, 0.075);
 }
  .progress {
-   animation: loader 60s ease;
+   animation: loader 780s ease;
    background: #75b800;
    color: #fff;
    padding: 5px;

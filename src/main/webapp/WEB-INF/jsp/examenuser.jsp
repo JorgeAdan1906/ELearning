@@ -123,12 +123,12 @@
      <br>
      
      <script>
-        setInterval(myTimer, 60000);
+        setInterval(myTimer, 780000);
         //let miTimeout;
          
         function myTimer() {
             //un minuto son 60000
-            const miTimeout = setTimeout(myFunction, 60000);
+            const miTimeout = setTimeout(myFunction, 780000);
             //clearTimeout(miTimeout);
         }
           
@@ -138,7 +138,7 @@
             document.getElementById('tiempoEtiqueta').style.display = 'none';
             document.getElementById('timer').style.display = 'none';
             document.getElementById('timer').style.display = 'none';
-            clearTimeout(miTimeout);
+            //clearTimeout(miTimeout);
             //document.getElementById('tiempoEtiqueta2').style.display = 'none';
             //AsignarCalificacion();
             //document.getElementById('botonrespuestas').style.display = 'block';
@@ -220,7 +220,8 @@
         var x = [];
         var Quizz = [];
         
-        function ocultar(){
+        function ocultar(x){
+            console.log("ocultar");
             //alert("Se acabo tu tiempo")
             document.getElementById('botonresultado').style.display = 'none';
             document.getElementById('tiempoEtiqueta').style.display = 'none';
@@ -230,7 +231,7 @@
             document.getElementById('tusResp').style.display = 'block';
             
             
-            console.log(x);
+            //console.log(x);
             //console.log(x.length);
             for(var i = 0; i<x[0].length; i++){
                 //console.log("for x")
@@ -289,11 +290,15 @@
             Calificacion = mostrarResultado();
             
             //Recoge localStorage de las respuestas seleccionadas en Array
-            localStorage.getItem("resp");
+            //localStorage.getItem("resp");
             
-            x.push(JSON.parse(localStorage.getItem("resp")));//console.log(x);
-            localStorage.setItem("x", JSON.stringify(x));
+            //x.push(JSON.parse(localStorage.getItem("resp")));//console.log(x);
+            //localStorage.setItem("x", JSON.stringify(x));
             //console.log(x);
+            
+            var x = [];
+            x = getResp();
+            console.log("resp jsp: " + x);
             var evaluacion;
             
             if(Calificacion >= 7)
@@ -322,7 +327,10 @@
                 }
             });
             //document.location.href = "ActualizarMiCuestionario.html?idCurso=" + ${CursoID} + "&idUsuario=" + ${UsuarioID} + "&idCuestionario=" + ${cuestionario.idCuestionario} + "&Evaluacion=1";     
-            ocultar();
+            var x = [];
+            x = getResp();
+            console.log("resp jsp: " + x);
+            ocultar(x);
         }
         
         function ScoreRepro(Calificacion){
@@ -339,7 +347,11 @@
                 //document.location.href = "examenuser.html?idUsuario="+${UsuarioID}+"&idCuestionario="+${cuestionario.idCuestionario};
                 
             });
-            ocultar();
+            var x = [];
+            x = getResp();
+            console.log("resp jsp: " + x);
+            ocultar(x);
+            //ocultar();
         }
     </script>
   </body>

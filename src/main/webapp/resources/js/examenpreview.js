@@ -111,4 +111,25 @@ function mostrarResultado() {
     return promedio;
 }
 
+function getResp(){
+    const respuestas = contenedor.querySelectorAll(".respuestas");
+    //console.log(respuestas);
+    let resp = [];
+    preguntas.forEach((preguntaActual, numeroDePregunta) => {
+        const todasLasRespuestas = respuestas[numeroDePregunta];
+        //console.log(todasLasRespuestas);
+        const checkboxRespuestas = `input[name='${numeroDePregunta}']:checked`;
+        const respuestaElegida = (
+                todasLasRespuestas.querySelector(checkboxRespuestas) || {}
+        ).value;
+        
+        resp.push(respuestaElegida);
+        //console.log(resp);
+        //localStorage.setItem("resp", JSON.stringify(resp));
+        console.log(resp);
+        
+    });
+    return resp;
+}
+
 //botonRes.addEventListener("click", mostrarResultado);

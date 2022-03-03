@@ -305,7 +305,7 @@ public class MiCuestionarioDaoImpl implements MiCuestionarioDao{
         MiCuestionario entidad = null;
         List<MiCuestionario> lista = null;
         //int idMiCuest;
-        Boolean evaluacion;
+        Boolean evaluacion = false;
 
         try {
             transaccion.begin();
@@ -328,7 +328,7 @@ public class MiCuestionarioDaoImpl implements MiCuestionarioDao{
             session.close();
         }
         
-        return true;
+        return evaluacion;
     }
 
     

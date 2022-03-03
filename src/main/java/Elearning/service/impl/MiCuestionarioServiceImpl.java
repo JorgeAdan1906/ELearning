@@ -67,34 +67,34 @@ public class MiCuestionarioServiceImpl implements MiCuestionarioService {
     @Override
     public String updateMiCuestionario(int idMiCuestionario, boolean evaluacion, float calificacion) {
         System.out.println("ser impl cal: " + calificacion);
+        String retorno = "";
         try{
-            //Crear MiCuestionario
-            MiCuestionario miCuestionario = new MiCuestionario();
-            //Recuperar por Id MiCuestionario ya existente
-            miCuestionario = miCuestionarioDao.getMiCuestionario(idMiCuestionario);
-            //Modificar la Evaluacion de MiCuestionario
-            miCuestionario.setEvaluacion(evaluacion);
-            miCuestionario.setCalificacion(calificacion);
-            //Actualizar MiCuestionario en la BD
-            //miCuestionario = miCuestionarioDao.update(miCuestionario);
             boolean ev;
             ev = miCuestionarioDao.getEvaluacion(idMiCuestionario);
-            if(ev = false){
-                miCuestionario = miCuestionarioDao.update(miCuestionario);    
-            } else{
-                
-            }
-             
             System.out.println("ev serv impl: " + ev);
-            
+            if(ev == Boolean.FALSE){
+                System.out.println("es false");
+                //miCuestionario = miCuestionarioDao.update(miCuestionario);
+                MiCuestionario miCuestionario = new MiCuestionario();
+                miCuestionario = miCuestionarioDao.getMiCuestionario(idMiCuestionario);
+                miCuestionario.setEvaluacion(evaluacion);
+                miCuestionario.setCalificacion(calificacion);
+                miCuestionarioDao.update(miCuestionario);
+                System.out.println("Se actualizao MiCuestionario");
+                retorno = "MiCuestionario actualizado";
+            } 
+            else if(ev == Boolean.TRUE){
+                System.out.println("es true");
+                System.out.println("No se puede hacer el examen mas de una vez");
+                retorno =  "No se puede hacer el examen mas de una vez";
+            }
             //miCuestionario = miCuestionarioDao.getEvaluacion(idMiCuestionario);
-            //Retornar respuesta de exito
-            return "MiCuestionario actualizado";
+            
         } catch(Exception e){
-            //Retornar respuesta de error
             System.out.println("Hubo un error en updateMiCuestionario - MiCuestionarioServiceImpl.java ---> " + e);
-            return "MiCuestionario no actualizado";
+            retorno = "MiCuestionario no actualizado";
         }
+        return retorno;
     }
 
     @Override

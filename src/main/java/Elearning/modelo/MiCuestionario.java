@@ -23,18 +23,33 @@ public class MiCuestionario implements Serializable{
     
     @Column(name="evaluacion")
     private boolean evaluacion;
+
+    @Column(name="estado")
+    private String estado;
+    
+    @Column(name="calificacion")
+    private float calificacion;
     
     //Relación MUCHOS a UNO con Usuario --> "MUCHOS A MUCHOS"
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name="idUsuario", referencedColumnName = "idUsuario")
     private Usuario usuario;
     
     //Relación MUCHOS a UNO con Cuestionario --> "MUCHOS A MUCHOS"
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name="idCuestionario", referencedColumnName = "idCuestionario")
-    private Cuestionario cuestionario;
+    private Cuestionario idCuestionario; //le agrege el "id"
     
     public MiCuestionario() {
+    }
+
+    public MiCuestionario(int idMiCuestionario, boolean evaluacion, String estado, float calificacion, Usuario usuario, Cuestionario idCuestionario) {
+        this.idMiCuestionario = idMiCuestionario;
+        this.evaluacion = evaluacion;
+        this.estado = estado;
+        this.calificacion = calificacion;
+        this.usuario = usuario;
+        this.idCuestionario = idCuestionario;
     }
 
 //    public MiCuestionario(int idUsuario, int idCuestionario) {
@@ -70,13 +85,44 @@ public class MiCuestionario implements Serializable{
         this.usuario = usuario;
     }
     
-    public Cuestionario getCuestionario() {
-        return cuestionario;
+//    public Cuestionario getCuestionario() {
+//        return cuestionario;
+//    }
+//
+//    public void setCuestionario(Cuestionario cuestionario) {
+//        this.cuestionario = cuestionario;
+//    }
+
+    public Cuestionario getIdCuestionario() {
+        return idCuestionario;
     }
 
-    public void setCuestionario(Cuestionario cuestionario) {
-        this.cuestionario = cuestionario;
+    public void setIdCuestionario(Cuestionario idCuestionario) {
+        this.idCuestionario = idCuestionario;
     }
+    
+    
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public float getCalificacion() {
+        return calificacion;
+    }
+
+    public void setCalificacion(float calificacion) {
+        this.calificacion = calificacion;
+    }
+
+    @Override
+    public String toString() {
+        return "MiCuestionario{" + "idMiCuestionario=" + idMiCuestionario + ", evaluacion=" + evaluacion + ", estado=" + estado + ", calificacion=" + calificacion + ", usuario=" + usuario + ", idCuestionario=" + idCuestionario + '}';
+    }
+
 }
 
 //-----------------------------------------------------------------------------

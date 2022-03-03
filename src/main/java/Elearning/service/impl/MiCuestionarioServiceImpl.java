@@ -47,11 +47,11 @@ public class MiCuestionarioServiceImpl implements MiCuestionarioService {
             MiCuestionario miCuestionario = new MiCuestionario();
             miCuestionario.setEvaluacion(evaluacion);
             miCuestionario.setUsuario(usuario);
-            miCuestionario.setCuestionario(cuestionario);
+            miCuestionario.setIdCuestionario(cuestionario);
             //Agregar MiCuestionario a Usuario (Solo relaciona las tablas)
             usuario.addMiCuestionario(miCuestionario);
             //Agregar MiCuestionario a Cuestionario (Solo relaciona las tablas)
-            cuestionario.addMiCuestionario(miCuestionario);
+            //cuestionario.addMiCuestionario(miCuestionario); //descomentar
             //Agregar MiCuestionario a la BD (Previamente se tuvieron que relacionar las tablas)
             miCuestionario = miCuestionarioDao.create(miCuestionario);
             
@@ -65,7 +65,8 @@ public class MiCuestionarioServiceImpl implements MiCuestionarioService {
     }
 
     @Override
-    public String updateMiCuestionario(int idMiCuestionario, boolean evaluacion) {
+    public String updateMiCuestionario(int idMiCuestionario, boolean evaluacion, float calificacion) {
+        System.out.println("ser impl cal: " + calificacion);
         try{
             //Crear MiCuestionario
             MiCuestionario miCuestionario = new MiCuestionario();
@@ -73,9 +74,20 @@ public class MiCuestionarioServiceImpl implements MiCuestionarioService {
             miCuestionario = miCuestionarioDao.getMiCuestionario(idMiCuestionario);
             //Modificar la Evaluacion de MiCuestionario
             miCuestionario.setEvaluacion(evaluacion);
+            miCuestionario.setCalificacion(calificacion);
             //Actualizar MiCuestionario en la BD
-            miCuestionario = miCuestionarioDao.update(miCuestionario);
-
+            //miCuestionario = miCuestionarioDao.update(miCuestionario);
+            boolean ev;
+            ev = miCuestionarioDao.getEvaluacion(idMiCuestionario);
+            if(ev = false){
+                miCuestionario = miCuestionarioDao.update(miCuestionario);    
+            } else{
+                
+            }
+             
+            System.out.println("ev serv impl: " + ev);
+            
+            //miCuestionario = miCuestionarioDao.getEvaluacion(idMiCuestionario);
             //Retornar respuesta de exito
             return "MiCuestionario actualizado";
         } catch(Exception e){

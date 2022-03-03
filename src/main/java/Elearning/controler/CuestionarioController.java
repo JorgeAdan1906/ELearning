@@ -38,6 +38,7 @@ public class CuestionarioController {
             //Al entrar a la vista --> "examenuser.jsp"
     @RequestMapping(value = "examenuser.html", method = RequestMethod.GET)
     public String tomarCuestionario(@RequestParam("idUsuario") int idUsuario, @RequestParam("idCuestionario") int idCuestionario, Model model) {
+        System.out.println("llega a tomar cuestionario cuest controller");
         return cuestionarioService.listAllCuestionariosById(model, idCuestionario); 
     }
     
@@ -45,6 +46,8 @@ public class CuestionarioController {
     @RequestMapping(value = "CrearCuestionario.html", method = RequestMethod.GET)
     public String crearCuestionario(@RequestParam("InputNombre") String Nombre){
         String Redirect;
+        System.out.println("holaaaaaasss");
+        System.out.println("modulo recuperado: " + moduloRecuperado);
         if (cuestionarioService.createNewCuestionario(moduloRecuperado, Nombre).equals("Cuestionario creado")) {
             Redirect = "redirect:/cuestionario.html?Modulo=" + moduloRecuperado;
         } else
@@ -56,6 +59,8 @@ public class CuestionarioController {
     @RequestMapping(value = "ActualizarCuestionario.html", method = RequestMethod.GET)
     public String actualizarCuestionario(@RequestParam("IdCuestionario") int IdCuestionario, @RequestParam("InputNombre") String Nombre){
         String Redirect;
+        System.out.println("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+        System.out.println("modulo en actualizar controller: " + moduloRecuperado);
         if (cuestionarioService.updateCuestionario(IdCuestionario, Nombre).equals("Cuestionario actualizado")) {
             Redirect = "redirect:/cuestionario.html?Modulo=" + moduloRecuperado;
         } else

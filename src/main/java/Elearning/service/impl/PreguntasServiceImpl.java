@@ -7,6 +7,7 @@ import Elearning.modelo.Preguntas;
 import Elearning.service.PreguntasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 @Service("PreguntasService")
 public class PreguntasServiceImpl implements PreguntasService {
@@ -21,6 +22,19 @@ public class PreguntasServiceImpl implements PreguntasService {
 //        model.addAttribute("preguntas", preguntasDao.findAll());
 //        return "cuestionario";
 //    }
+    
+    @Override
+    public String listAllPreguntas(int idCuestionario) {
+        System.out.println("llega a preguntas service impl");
+        try {
+            preguntasDao.findAll(idCuestionario);
+            System.out.println("llega try service impl");
+        } catch (Exception e) {
+            System.out.println("error try service impl: " + e);
+        }
+        return "Preguntas";
+    }
+
 
     @Override
     public String createNewPreguntas(int IdCuestionario, String pregunta, String respuestaA, String respuestaB, String respuestaC) {
@@ -31,11 +45,12 @@ public class PreguntasServiceImpl implements PreguntasService {
             //Crear la Pregunta
             Preguntas preguntas = new Preguntas(pregunta, respuestaA, respuestaB, respuestaC);
             //Agregar Pregunta al Cuestionario (Solo relaciona las tablas)
-            cuestionario.addPreguntas(preguntas);
+            cuestionario.addPreguntas(preguntas); //descomentar
             //Agregar Pregunta a la BD (Previamente se tuvieron que relacionar las tablas)
             preguntas = preguntasDao.create(preguntas);
             
             //Retornar respuesta de exito
+            System.out.println("llega a create new preguntas service impl");
             return "Pregunta creada";
         } catch(Exception e){
             //Retornar respuesta de error
@@ -60,6 +75,7 @@ public class PreguntasServiceImpl implements PreguntasService {
             preguntas = preguntasDao.update(preguntas);
 
             //Retornar respuesta de exito
+            System.out.println("llega a update preguntas service impl");
             return "Pregunta actualizada";
         } catch(Exception e){
             //Retornar respuesta de error
@@ -71,6 +87,7 @@ public class PreguntasServiceImpl implements PreguntasService {
     @Override
     public boolean deletePreguntas(int idPregunta) {
         try{
+            
             //Crear la Pregunta
             Preguntas preguntas = new Preguntas();
             //Recuperar por Id la Pregunta ya existente
@@ -82,10 +99,12 @@ public class PreguntasServiceImpl implements PreguntasService {
             } else 
                 //Retornar respuesta de error
                 return false;
+                
         } catch(Exception e){
             //Retornar respuesta de error
             System.out.println("Hubo un error en deletePreguntas - PreguntasServiceImpl.java ---> " + e);
             return false;
         }
     }
+
 }

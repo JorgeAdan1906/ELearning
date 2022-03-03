@@ -31,7 +31,9 @@ public class ModuloControler {
     }
 
     @RequestMapping(value = "mediacursos.html", method = RequestMethod.GET)
-    public String listadoCursos(@RequestParam("idCurso") int idCurso, Model model, HttpServletRequest request) {
+    public String listadoCursos(@RequestParam("idCurso") int idCurso ,Model model, HttpServletRequest request) {
+        System.out.println("model: " + model);
+        //return "ok";
         return moduloService.readModulo(idCurso, model, request);
     }
 

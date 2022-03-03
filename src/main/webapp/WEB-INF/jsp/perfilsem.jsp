@@ -278,14 +278,15 @@
                     <input class="controls" type="hidden" name="email" id="email" value="<c:out value="${usuario.email}"></c:out>">
                     <input class="controls" type="password" name="contrasena" id="password" placeholder="Nueva contraseña" value="<c:out value="${usuario.contrasena}"></c:out>">
                     <input class="controls" type="text" name="rfc" id="rfc" placeholder="RFC" value="<c:out value="${usuario.rfc}"></c:out>">
-                        <br>
-                        <center><input class="btn-guardar" type="submit" onclick="alertActualizar()" value="Guardar"></center>
-                    </form>
-                </section>
-                <br>
-                <br>
-                <br>
-                <div id="misArchivos">
+                    <br>
+                    <center><input class="btn-guardar" type="submit" onclick="alertActualizar()" value="Guardar"></center>
+                </form>
+            </section>
+            <br>
+            <br>
+            <br>
+            <!--  <div id="misArchivos">
+                  
                 <div id="Titulo2">
                     <center><h1>Mis archivos</h1></center>
                 </div>
@@ -315,7 +316,8 @@
                     </div> 
                 <br/>
                 </center>
-                </div> 
+                </div>
+            -->
             <script>
                 function alertActualizar() {
                     document.querySelector('#from2').addEventListener('submit', function (e) {

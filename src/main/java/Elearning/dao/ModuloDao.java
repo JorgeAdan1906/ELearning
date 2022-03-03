@@ -11,6 +11,8 @@ public interface ModuloDao {
     public Modulo getModulo(final Integer idModulo);
     public Modulo update(final Modulo elModulo);
     public List<Modulo> findbyCurso(int idCurso);
+    public List<Modulo> findbyCurso_media(int idCurso);
     public boolean delete(final Modulo elModulo);
+    public String updateidModulo(int idModulo, int idCuestionario);
     
 }

@@ -304,7 +304,7 @@
                 <div id="btnCrearCues"><a onclick="CrearCuestionario()"><img src="${pageContext.request.contextPath}/resources/imagenes/add.png"></a></div>
                 <div id="btnEBCues">
                     <a onclick="alertEditarCuestionario()"><img src="${pageContext.request.contextPath}/resources/imagenes/editar.png"></a>
-                    <a onclick="alertBorrarCuestionario()"><img src="${pageContext.request.contextPath}/resources/imagenes/delete.png"></a>
+                    <!--<a onclick="alertBorrarCuestionario()"><img src="${pageContext.request.contextPath}/resources/imagenes/delete.png"></a>-->
                 </div>
                 <br>
                 <h1><input type="text" id="titulo" style ="text-align: center;"  placeholder="Título del formulario"></h1>

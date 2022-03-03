@@ -97,6 +97,7 @@ public class MiCuestionarioDaoImpl implements MiCuestionarioDao{
 
     @Override
     public MiCuestionario update(MiCuestionario entidad) {
+        System.out.println("entidad dao impl: " + entidad);
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         //Ocupamos la transaccion en caso de error la base de datos se restaura a como estaba
         Transaction transaccion = session.getTransaction();
@@ -224,20 +225,26 @@ public class MiCuestionarioDaoImpl implements MiCuestionarioDao{
         //Declaramos la lista donde almacenara el conjunto de datos de la tabla 
         MiCuestionario entidad = null;
         List<MiCuestionario> lista = null;
+        int idMiCuest;
 
         try {
+            System.out.println("llegaaaaa");
             //Iniciamos Transaccion
             transaccion.begin();
             //crea la consulta Query
-            Query miQuery = session.createSQLQuery("SELECT * FROM MiCuestionario m WHERE m.idUsuario =:idU AND m.idCuestionario =:idC").addEntity(MiCuestionario.class)
-                    .setParameter("idU",idUsuario)
-                    .setParameter("idC", idCuestionario);
+            try {
+                Query miQuery = session.createSQLQuery("SELECT * FROM MiCuestionario WHERE idUsuario='" + idUsuario + "' AND idCuestionario='" + idCuestionario + "' ").addEntity(MiCuestionario.class);
             //Amacenamos los datos en la lista declarada anteriormente 
-            lista = miQuery.list();
+                lista = miQuery.list();
+                System.out.println("lista mi cuest dao impl: " + lista);
+            } catch (Exception e) {
+            }
+            
             lista.size();
             //regresa el commit
             transaccion.commit();
         } catch (HibernateException e) {
+            System.out.println("ERROR dao impl: " + e);
             //Si la transaccion esta bacia y ademas esta activa que regrese el estado en el que se encontraba la Base de Datos
             if (transaccion != null && transaccion.isActive()) {
                 transaccion.rollback();
@@ -250,7 +257,79 @@ public class MiCuestionarioDaoImpl implements MiCuestionarioDao{
         for(MiCuestionario u : lista){
             entidad = getMiCuestionario(u.getIdMiCuestionario());
         }
-        
+        System.out.println("enitdad: " + entidad);
         return entidad;
     }
+
+    @Override
+    public List<MiCuestionario> findAllByCursoByUsuario(int idCurso, int idUsuario) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction transaccion = session.getTransaction();
+        List<MiCuestionario> lista = null;
+
+        try {
+            transaccion.begin();
+            //crea la consulta Query
+//            Query miQuery = session.createSQLQuery("SELECT Cuestionario.idCuestionario, Cuestionario.nombre, Cuestionario.idModulo FROM Cuestionario INNER JOIN Modulo ON Cuestionario.idModulo = Modulo.idModulo INNER JOIN Curso ON Modulo.idCurso = Curso.idCurso WHERE Curso.idCurso =:id").addEntity(Cuestionario.class)
+//            .setParameter("id",idCurso);
+            
+            //CONSULTA A TALBE MI CUESTIONARIOS CON JOINS
+            //consulta completa
+            //Query miQuery = session.createSQLQuery("select MiCuestionario.idMiCuestionario, MiCuestionario.evaluacion, MiCuestionario.idUsuario, MiCuestionario.idCuestionario, MiCuestionario.estado, Cuestionario.idCuestionario, Cuestionario.nombre, Cuestionario.idModulo, Modulo.idModulo, Modulo.titulo, Modulo.descripcion, Modulo.url, MOdulo.idCurso, Modulo.idCuestionario,Curso.idCurso, Curso.nombre, Curso.descripcion, Curso.caratula, curso.categoria from MiCuestionario INNER JOIN Cuestionario ON MiCuestionario.idCuestionario = Cuestionario.idCuestionario INNER JOIN Modulo ON Cuestionario.idModulo = Modulo.idModulo INNER JOIN Curso ON Modulo.idCurso = Curso.idCurso WHERE Curso.idCurso=:id").addEntity(MiCuestionario.class)
+            
+            Query miQuery = session.createSQLQuery("select MiCuestionario.idMiCuestionario, MiCuestionario.evaluacion, MiCuestionario.idUsuario, MiCuestionario.idCuestionario, MiCuestionario.estado, MiCuestionario.calificacion, Cuestionario.idCuestionario, Cuestionario.nombre, Cuestionario.idModulo, Curso.idCurso, Curso.nombre, Curso.descripcion, Curso.caratula, curso.categoria from MiCuestionario INNER JOIN Cuestionario ON MiCuestionario.idCuestionario = Cuestionario.idCuestionario INNER JOIN Modulo ON Cuestionario.idModulo = Modulo.idModulo INNER JOIN Curso ON Modulo.idCurso = Curso.idCurso WHERE Curso.idCurso='" + idCurso + "' and MiCuestionario.idUsuario='" + idUsuario + "' ").addEntity(MiCuestionario.class);
+            
+            //Amacenamos los datos en la lista declarada anteriormente 
+            lista = miQuery.list();
+            System.out.println("lista cuestionarios: " + lista);
+            lista.size();
+            //regresa el commit
+            transaccion.commit();
+        } catch (HibernateException e) {
+            //Si la transaccion esta bacia y ademas esta activa que regrese el estado en el que se encontraba la Base de Datos
+            if (transaccion != null && transaccion.isActive()) {
+                transaccion.rollback();
+            }
+        } finally {
+            //Finalmente cerramos la sesion 
+            session.close();
+        }
+        return lista;
+    }
+
+    @Override
+    public Boolean getEvaluacion(Integer idMiCuestionario) {
+        System.out.println("llega a getEvaluacion dao");
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction transaccion = session.getTransaction();
+        MiCuestionario entidad = null;
+        List<MiCuestionario> lista = null;
+        //int idMiCuest;
+        Boolean evaluacion;
+
+        try {
+            transaccion.begin();
+            try {
+                Query miQuery = session.createSQLQuery("select evaluacion from MiCuestionario where idMiCuestionario =" + idMiCuestionario);
+                //lista = miQuery.list();
+                evaluacion = (Boolean)miQuery.uniqueResult();
+                System.out.println("-----------------------------Evaluacion: " + evaluacion);
+                transaccion.commit();
+            } catch (Exception e) {
+                System.out.println("error en dao impl get ev: " + e);
+            }
+            
+        } catch (HibernateException e) {
+            System.out.println("ERROR dao impl: " + e);
+            if (transaccion != null && transaccion.isActive()) {
+                transaccion.rollback();
+            }
+        } finally {
+            session.close();
+        }
+        
+        return true;
+    }
+
+    
 }

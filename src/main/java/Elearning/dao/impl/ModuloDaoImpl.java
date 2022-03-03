@@ -160,7 +160,7 @@ public class ModuloDaoImpl implements ModuloDao {
     }
 
     @Override
-    public List<Modulo> findbyCurso(int idCurso) {
+    public List<Modulo> findbyCurso_media(int idCurso) {
         //Obtener la secion 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         //Ocupamos la transaccion en caso de error la base de datos se restaura a como estaba
@@ -171,12 +171,17 @@ public class ModuloDaoImpl implements ModuloDao {
             //Iniciamos Transaccion
             transaccion.begin();
             //crea la consulta Query
-            Query <Modulo> query = session.createSQLQuery("select * from Modulo mo where mo.idCurso=:c")
+            //Query <Modulo> query = session.createSQLQuery("select * from Modulo mo where mo.idCurso=:c")  
+            Query <Modulo> query = session.createSQLQuery("select Modulo.idModulo,Modulo.descripcion, Modulo.url, Modulo.idCuestionario, Modulo.titulo, Modulo.idCurso, Cuestionario.idCuestionario, Cuestionario.nombre from modulo INNER JOIN Cuestionario on Modulo.idCuestionario = Cuestionario.idCuestionario where idCurso=:c")
                     .addEntity(Modulo.class)
                     .setParameter("c", idCurso);
                     
             //Amacenamos los datos en la lista declarada anteriormente 
             lista = query.list();
+//            System.out.println("+++++++++++++++");
+//            System.out.println("LISTA: " + lista);
+//            System.out.println(query);
+//            System.out.println("+++++++++++++++");
             lista.size();
             //regresa el commit
             transaccion.commit();
@@ -189,7 +194,75 @@ public class ModuloDaoImpl implements ModuloDao {
             //Finalmente cerramos la sesion 
             session.close();
         }
+        System.out.println(lista);
         return lista;
+    }
+    
+    @Override
+    public List<Modulo> findbyCurso(int idCurso) {
+        //Obtener la secion 
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        //Ocupamos la transaccion en caso de error la base de datos se restaura a como estaba
+        Transaction transaccion = session.getTransaction();
+
+        List<Modulo> lista = null;
+        try {
+            //Iniciamos Transaccion
+            transaccion.begin();
+            //crea la consulta Query
+            Query <Modulo> query = session.createSQLQuery("select * from Modulo mo where mo.idCurso=:c")  
+            //Query <Modulo> query = session.createSQLQuery("select Modulo.idModulo,Modulo.descripcion, Modulo.url, Modulo.idCuestionario, Modulo.titulo, Modulo.idCurso, Cuestionario.idCuestionario, Cuestionario.nombre from modulo INNER JOIN Cuestionario on Modulo.idCuestionario = Cuestionario.idCuestionario where idCurso=:c")
+                    .addEntity(Modulo.class)
+                    .setParameter("c", idCurso);
+                    
+            //Amacenamos los datos en la lista declarada anteriormente 
+            lista = query.list();
+            System.out.println("+++++++++++++++");
+            System.out.println("LISTA: " + lista);
+            System.out.println(query);
+            System.out.println("+++++++++++++++");
+            lista.size();
+            //regresa el commit
+            transaccion.commit();
+        } catch (HibernateException e) {
+            //Si la transaccion esta bacia y ademas esta activa que regrese el estado en el que se encontraba la Base de Datos
+            if (transaccion != null && transaccion.isActive()) {
+                transaccion.rollback();
+            }
+        } finally {
+            //Finalmente cerramos la sesion 
+            session.close();
+        }
+        System.out.println(lista);
+        return lista;
+    }
+
+    @Override
+    public String updateidModulo(int idModulo, int idCuestionario) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction transaccion = session.getTransaction();
+        //int idCuestionario = 0;
+
+        try {
+            transaccion.begin();
+            Query miQuery;
+            miQuery = session.createSQLQuery("update Modulo set idCuestionario="+idCuestionario+ " where idModulo="+idModulo);
+            int res = miQuery.executeUpdate();
+            System.out.println("res: " + res);
+            //idCuestionario = (Integer)miQuery.uniqueResult();
+            //System.out.println("---------------------------idCuestionario: " + idCuestionario);
+            //session.getTransaction().commit();
+            transaccion.commit();
+            System.out.println("tabla modulo actualizada correctamente");
+        } catch (HibernateException e) {
+            if (transaccion != null && transaccion.isActive()) {
+                transaccion.rollback();
+                System.out.println("error al update: " + e);
+            }
+        } finally {
+            session.close();
+        }
+        return "ok";    
     }
 
 }

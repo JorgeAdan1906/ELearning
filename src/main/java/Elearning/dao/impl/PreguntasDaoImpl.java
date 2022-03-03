@@ -17,6 +17,7 @@ public class PreguntasDaoImpl implements PreguntasDao{
     @Override
     public List<Preguntas> findAll(int idCuestionario) {
         //Obtener la secion 
+        System.out.println("llega a findAll ");
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         //Ocupamos la transaccion en caso de error la base de datos se restaura a como estaba
         Transaction transaccion = session.getTransaction();
@@ -35,6 +36,7 @@ public class PreguntasDaoImpl implements PreguntasDao{
             //regresa el commit
             transaccion.commit();
         } catch (HibernateException e) {
+            System.out.println("ERROR EN DAO IMPL: " + e);
             //Si la transaccion esta bacia y ademas esta activa que regrese el estado en el que se encontraba la Base de Datos
             if (transaccion != null && transaccion.isActive()) {
                 transaccion.rollback();

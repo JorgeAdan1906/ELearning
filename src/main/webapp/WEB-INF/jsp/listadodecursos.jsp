@@ -366,11 +366,16 @@
                 <label for="cat"></label>
                 <select name="categoria" id="cat" class="k-textbox">
                     <option disabled select>Selecciona una categoria</option>
+                    <option value="Bienvenida a Desarrollador">Bienvenida a Desarrollador</option>
+                    <option value="ITO (Ingeniero Tecnico Operativo)">ITO (Ingeniero Tecnico Operativo)</option>
+                    <option value="SGSI (Sistema de Gestion)">SGSI (Sistema de Gestion)</option>
+                    <option value="Recurso Humanos">Recurso Humanos</option>
+                    <option value="Redes">Redes</option>
+                    
                     <option value="Back-End">Back-End</option>
                     <option value="Front-End">Front-End</option>
                     <option value="Bases de Datos">Bases de Datos</option>
-                    <option value="Redes">Redes</option>
-                    <option value="Seguridad en redes">Seguridad en redes</option>   
+                    <option value="Marketing Digital">Marketing Digital</option> 
                     <option value="Otro">Otro</option>
                 </select>
                 <br>

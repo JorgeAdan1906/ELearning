@@ -156,6 +156,12 @@
                                 <br>
                                 <select  name="categoria" id="simple-input" class="k-textbox" style="width: 100%;">
                                     <option disabled selected value="c">Selecciona una categoria</option>
+                                    <option>Bienvenida a Desarrollador</option>
+                                    <option>ITO (Ingeniero Tecnico Operativo)</option>
+                                    <option>SGSI (Sistema de Gestion)</option>
+                                    <option>Recurso Humanos</option>
+                                    <option>Redes</option>
+                                    
                                     <option>Back-End</option>
                                     <option>Front-End</option>
                                     <option>Bases de Datos</option>

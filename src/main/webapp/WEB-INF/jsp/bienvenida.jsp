@@ -237,7 +237,7 @@
                     </div>
 
                     <div class="card1">
-                        <a href="Cartas.html?categoria=Redes"> <img src="${pageContext.request.contextPath}/resources/imagenes/marketingdigital.jpg"></a>
+                        <a href="Cartas.html?categoria=Marketing Digital"> <img src="${pageContext.request.contextPath}/resources/imagenes/marketingdigital.jpg"></a>
                         <br>
                         <br>
                         <h4>Marketing Digital</h4>
@@ -257,15 +257,7 @@
 
         <footer>
             <div class="footer-content">
-                <h3>B1 SOFT LATINOAMERICA</h3>
-
-                <ul class="socials">
-                    <li><a href="#"><i class="fab fa-facebook"></i></a>
-                    <li><a href="#"><i class="fab fa-twitter"></i></a>
-                    <li><a href="#"><i class="fab fa-google"></i></a>
-                    <li><a href="#"><i class="fab fa-youtube"></i></a>
-                    <li><a href="#"><i class="fab fa-linkedin"></i></a>
-                </ul>
+                <h3><a target="_blank" href="https://b1-soft.com:449/bienvenido/Inicio/" style="text-decoration: none; color:#FFFFFF;">B1 SOFT LATINOAMERICA</a></h3>
             </div>
             <div class="footer-bottom">
                 <p>designed by <span>B1 SOFT</span></p>

@@ -94,4 +94,11 @@ public class Preguntas implements Serializable{
     public void setIdCuestionario(Cuestionario idCuestionario) {
         this.idCuestionario = idCuestionario;
     }
+
+    @Override
+    public String toString() {
+        return "Preguntas{" + "idPregunta=" + idPregunta + ", pregunta=" + pregunta + ", respuestaA=" + respuestaA + ", respuestaB=" + respuestaB + ", respuestaC=" + respuestaC + ", idCuestionario=" + idCuestionario + '}';
+    }
+    
+    
 }

@@ -41,8 +41,18 @@ public class Modulo implements Serializable {
     private Curso idCurso;
     
     //Relación UNO a MUCHOS con Cuestionario
-    @OneToMany(mappedBy = "idModulo",fetch=FetchType.LAZY,cascade = {CascadeType.ALL,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
-    private List<Cuestionario> idCuestionario;
+//    @OneToMany(mappedBy = "idModuloC",fetch=FetchType.LAZY,cascade = {CascadeType.ALL,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+//    private List<Cuestionario> idCuestionario;
+
+    //Relación MUCHOS a UNO con Cuestionario
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.ALL,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+    @JoinColumn(name="idCuestionario")
+    private Cuestionario idCuestionario;
+    
+    //Relacion UNO A MUCHOS con Preguntas
+    @OneToMany(mappedBy = "idModulo_",fetch=FetchType.LAZY, cascade = {CascadeType.ALL,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+    //@LazyCollection(LazyCollectionOption.FALSE)
+    private List<Cuestionario> idCuestionario_;
 
     public Modulo() {}
 
@@ -92,24 +102,38 @@ public class Modulo implements Serializable {
         this.idCurso = idCurso;
     }
     
-    public List<Cuestionario> getIdCuestionario() {
-        return idCuestionario;
-    }
+    public Cuestionario getIdCuestionario() {
+            return idCuestionario;
+        }
 
-    public void setIdCuestionario(List<Cuestionario> idCuestionario) {
+    public void setIdCuestionario(Cuestionario idCuestionario) {
         this.idCuestionario = idCuestionario;
     }
 
+    public List<Cuestionario> getIdCuestionario_() {
+        return idCuestionario_;
+    }
+
+    public void setIdCuestionario_(List<Cuestionario> idCuestionario_) {
+        this.idCuestionario_ = idCuestionario_;
+    }
+
     public void addCuestionarios(Cuestionario cuestionario){   
-        if(idCuestionario != null){
-            idCuestionario = new ArrayList<>();
-            idCuestionario.add(cuestionario);
-            cuestionario.setIdModulo(this);
-        }    
+//        if(idCuestionario != null){
+//            //idCuestionario = new ArrayList<>();
+//            idCuestionario.add(cuestionario);
+//            cuestionario.setIdModulo(this);
+//        }    
     }
+
+//    @Override
+//    public String toString() {
+//        return "Modulo{" + "idModulo=" + idModulo + ", titulo=" + titulo + ", descripcion=" + descripcion + ", url=" + url + ", idCurso=" + idCurso + ", idCuestionario=" + idCuestionario + ", idCuestionario_=" + idCuestionario_ + '}';
+//    }
+//    
     
-    @Override
-    public String toString() {
-        return "Modulo{" + "idModulo=" + idModulo + ", titulo=" + titulo + ", descripcion=" + descripcion + ", url=" + url + ", idCurso=" + idCurso + '}';
-    }
+    
+    
+
+
 }

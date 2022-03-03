@@ -3,6 +3,7 @@ package Elearning.service.impl;
 import Elearning.dao.ArchivoDao;
 import Elearning.dao.CuestionarioDao;
 import Elearning.dao.CursoDao;
+import Elearning.dao.MiCuestionarioDao;
 import Elearning.dao.MiCursoDao;
 import Elearning.dao.ModuloDao;
 import Elearning.dao.UsuarioDao;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
@@ -45,6 +47,9 @@ public class ModuloServiceImpl implements ModuloService {
     
     @Autowired
     private CuestionarioDao cuestionarioDao;
+    
+    @Autowired
+    private MiCuestionarioDao miCuestionarioDao;
 
     @Override
     public String readModulo(int idCurso, Model model, HttpServletRequest request) {
@@ -56,10 +61,27 @@ public class ModuloServiceImpl implements ModuloService {
         if (micursoDao.RelacionSem(usuario, idCurso)) {
             //Si el usuario ya le dio clic para tomar este curso no es necesario que vuelva a relacionar, de lo contrario dara error
             System.out.println("No es necesario volver a relacionar");
+//            List<Object> modulos = null;
+//            modulos.add(moduloDao.findbyCurso(idCurso));
+//            int modsize = modulos.size();
+//            System.out.println("size:::" + modsize);
+            
+            int CuestionariosByCurso = 0;
+            CuestionariosByCurso = cuestionarioDao.countByCurso(idCurso);
+            int CuestionariosAprobados = miCuestionarioDao.countApproved(usuario, idCurso);
+            
+            model.addAttribute("CuestionariosByCurso", CuestionariosByCurso);
+            model.addAttribute("CuestionariosAprobados", CuestionariosAprobados);
+
             model.addAttribute("detacurso", curso);
-            model.addAttribute("modulos", moduloDao.findbyCurso(idCurso));
+            model.addAttribute("modulos", moduloDao.findbyCurso_media(idCurso));
+           
             model.addAttribute("archivos", archivoDao.findbyCurso(idCurso));
+            model.addAttribute("cuestionarios_", miCuestionarioDao.findAllByCursoByUsuario(idCurso, usuario));
             model.addAttribute("cuestionarios", cuestionarioDao.findAllByCurso(idCurso));
+            //model.addAttribute("cuestionariosByModulo", cuestionarioDao.findAllByCursoByModulo(idCurso, 3 ));
+            System.out.println("llega ok a read modulo");
+            //AQUI PODRIA AGREGAR LA VARIABLE PARA QUE LLEGUE  JSP
             return "mediacursos";
         } else {
             //Si el Usuario va tomar el curso entonces en necesario relacionar 
@@ -140,11 +162,12 @@ public class ModuloServiceImpl implements ModuloService {
                 entidad = moduloDao.create(entidad);
                 mo.setViewName("redirect:/anadirmodulos.html");
             }
+            
         } catch (Exception e) {
             e.printStackTrace();
             Logger.getLogger(ModuloServiceImpl.class.getName()).log(Level.SEVERE, null, e);
             mo.setViewName("primerosmodulos.html");
-        }
+        } 
         return mo;
     }
 

@@ -32,7 +32,7 @@ public class PreguntasController {
         cuestionario = preguntas.getIdCuestionario();
         
         cuestionario = cuestionarioDao.getCuestionario(cuestionario.getIdCuestionario());
-        modulo = cuestionario.getIdModulo();
+        modulo = cuestionario.getIdModulo_();
         
         return modulo.getIdModulo();
     }
@@ -42,7 +42,7 @@ public class PreguntasController {
         Cuestionario cuestionario = new Cuestionario();
 
         cuestionario = cuestionarioDao.getCuestionario(idCuestionario);
-        modulo = cuestionario.getIdModulo();
+        modulo = cuestionario.getIdModulo_();
         
         return modulo.getIdModulo();
     }
@@ -97,5 +97,20 @@ public class PreguntasController {
         } else
             Redirect = "redirect:/error.html"; 
         return Redirect;
+    }
+    
+    
+    @RequestMapping(value = "prueba.html", method = RequestMethod.GET)
+    public String prueba(@RequestParam("idCuestionario") int IdCuestionario) {
+        System.out.println("llega a preguntas controller");
+        try {
+            preguntasService.listAllPreguntas(IdCuestionario);
+            
+            System.out.println("ok try controller");
+        } catch (Exception e) {
+            System.out.println("error try controller: " + e);
+        }
+    return "prueba controller";  
+    //return cuestionarioService.listAllCuestionariosById(model, idCuestionario); 
     }
 }

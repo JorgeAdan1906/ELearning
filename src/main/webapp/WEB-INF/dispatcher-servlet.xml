@@ -93,11 +93,14 @@
                 <prop key="CrearPreguntas.html">preguntasController</prop>
                 <prop key="ActualizarPreguntas.html">preguntasController</prop>
                 <prop key="EliminarPreguntas.html">preguntasController</prop>
+                <prop key="prueba.html">preguntasController</prop>
                 
                 <!--Mapeo de MiCuestionario-->
                 <prop key="CrearMiCuestionario.html">miCuestionarioController</prop>
                 <prop key="ActualizarMiCuestionario.html">miCuestionarioController</prop>
                 <prop key="EliminarMiCuestionario.html">miCuestionarioController</prop>
+                
+                
             </props>
         </property>
     </bean>

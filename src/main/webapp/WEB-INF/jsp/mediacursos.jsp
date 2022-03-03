@@ -121,7 +121,11 @@
                 }
             } else {
                 response.sendRedirect("index.html");
-            }
+            };
+            
+        %>
+        <%
+        int hayCues = 0;
         %>
         <header>
             <nav class="navbar">
@@ -162,6 +166,7 @@
                 <script type="text/javascript">
                     let DataForm = {};
                     let cues = {};
+                    //var hayCues = 0;
                     $(document).ready(function () {
 
                 <c:forEach items="${cuestionarios}" var="cuestionario">
@@ -178,15 +183,24 @@
                 document.getElementById('mostrararchivos').style.display = 'none';
                 }
 
-                if (cues.id != "undefined" && cues.id != null && cues.id != "") {
+                if (cues.id != "undefined" && cues.id != null && cues.id != "") { //si hay cuest
                 document.getElementById('mostrarexamenes').style.display = 'block';
+                //document.getElementById('realizar_cuest').style.display = 'block';
+                //document.getElementById('no_realizar_cuest').style.display = 'none';
                 } else {
-                document.getElementById('mostrarexamenes').style.display = 'none';
+                document.getElementById('mostrarexamenes').style.display = 'none'; //no hay cuest
+                //document.getElementById('no_realizar_cuest').style.display = 'block';
+                //document.getElementById('realizar_cuest').style.display = 'none';
                 }
 
                 $("#mediaplayer").kendoMediaPlayer({
-                autoPlay: false,
+                //autoPlay: true,
+                end: onEnd,
                 });
+                
+                function onEnd() {
+                    alert("Has terminado el Modulo, es hora de realizar tu cuestionario");
+                }
 
                 var videos = new kendo.data.DataSource({
                 data: [
@@ -195,44 +209,85 @@
                     title: "${modulo.titulo}",
                     poster: "${detacurso.caratula}",
                     source: "${modulo.url}",
+                    cuestionario: "${modulo.idCuestionario.idCuestionario}", 
+                    curso: "${modulo.idCurso.idCurso}",
+                    ap: "${CuestionariosAprobados}"
                     },
                 </c:forEach>
                 ],
+                
                 });
 
                 var listView = $("#listView").kendoListView({
                 dataSource: videos,
                 selectable: true,
                 scrollable: false,
+                //autoPlay: true,
                 template: kendo.template($("#template").html()),
                 change: onChange,
                 dataBound: onDataBound,
                 });
 
-                function onChange() {
+                function onChange(e) {
+                //console.log(e.sender.options.selectable);
+                //console.log(e.sender)
                 var index = this.select().index();
+                //var x = (listView);
+                /*if(e.items[0].ap === 1){
+                        x.enable(true);
+                    }*/
+                if(index === 0){
+                    //console.log("es cero");   
+                }
+                //console.log(index);
                 var dataItem = this.dataSource.view()[index];
                 $("#mediaplayer").data("kendoMediaPlayer").media(dataItem);
                 }
 
-                function onDataBound(e) {
+                function onDataBound(e){
+                console.log(e);    
+                console.log(e.sender.options.selectable);
+                //e.items[0].prop("selectable", false);
+                //(e.items[1]).prop("selected", true);            
+                //console.log(checa);
+                //console.log(e.items[0].ap);
+                var x = (listView);
+                if(e.items[0].ap === 1){
+                        console.log("cero se desactiva");
+                        x.enable(true);
+                    }
                 this.select(this.content.children().first());
                 }
                 });
 
                 function enviarVistaExamenUser(idCuestionario) {
-                document.location.href = "CrearMiCuestionario.html?Evaluacion=0&IdUsuario=${UsuarioID}&IdCuestionario=" + idCuestionario;
-                }
+                document.location.href = "CrearMiCuestionario.html?Evaluacion=0&IdUsuario=${UsuarioID}&IdCuestionario="+idCuestionario;
+                } 
                 </script>
 
                 <script type="text/x-kendo-template" id="template">
-                    <li class="k-item k-state-default" onmouseover="$(this).addClass('k-state-hover')"
-                    onmouseout="$(this).removeClass('k-state-hover')">
-                    <span>
-                    <img src="#:poster#" />
-                    <h5>#:title#</h5>
-                    </span>
-                    </li>
+                        <li class="k-item k-state-default" onmouseover="$(this).addClass('k-state-hover')"
+                        onmouseout="$(this).removeClass('k-state-hover')">  
+                        
+                        <div id="realizar_cuest">  
+                            <span >
+                                <img src="#:poster#" />
+                                <h5 style="font-weight: bold">#:title#</h5>  
+                                <span style="background-color: white; width:160px; margin-top: 7px" > 
+                                <a onClick="enviarVistaExamenUser(#:cuestionario#)" target="_blank" style="color:orange; text-decoration:none">Realizar Cuestionario</a>
+                                </span>   
+                            </span>
+                        </div>
+                        <!--<div id="no_realizar_cuest">
+                            <span >
+                                <img src="#:poster#" />
+                                <h5 style="font-weight: bold">#:title#</h5>
+                                <a onClick="enviarVistaExamenUser(#:cuestionario#)" target="_blank" style="color:orange; text-decoration:none">Realizar Cuestionario</a>
+                            </span>
+                        </div>-->    
+                        </li>
+                    
+                    
                 </script>
                 <br/>
                 <br/>
@@ -274,18 +329,32 @@
                 </div>
                 <!--En este caso lista los mismos archivos devido a que todavia no hay un diferenciador de los archivos normales a los que son examen-->
                 <div id="mostrarexamenes">
-                    <h1>Examenes</h1>
+                    <h1>Mis calificaciones Examenes</h1>
                     <div class="cards-container">
                         <!-- Cartas -->
-                        <c:if test = "${cuestionarios != null}">
-                            <c:forEach items="${cuestionarios}" var="cuestionario">
+                        <c:if test = "${cuestionarios_ != null}">
+                            <c:forEach items="${cuestionarios_}" var="cuestionario">
                                 <script> cues["id"] = "${cuestionario.idCuestionario}";</script>
-                                <div class="k-card">
-                                    <a onClick="enviarVistaExamenUser(${cuestionario.idCuestionario})" target="_blank"><img class="k-card-image" src="${pageContext.request.contextPath}/resources/imagenes/EXAMEN.png" /></a>
-                                    <div class="k-card-body">
-                                        <center><h4>${cuestionario.nombre}</h4></center>
+                                <div>
+                                    <div class="k-card">
+                                        <a  target="_blank"><img class="k-card-image" src="${pageContext.request.contextPath}/resources/imagenes/EXAMEN.png" /></a>
+                                        <div class="k-card-body">
+                                        <center><h4></h4></center>
+                                        <center><h4>${cuestionario.idCuestionario.nombre}</h4></center>
                                     </div>
+                                    </div>
+                                    <c:if test = "${cuestionario.evaluacion == false}">
+                                        <div style="color:orange">Status: Pendiente</div>
+                                    </c:if>
+                                    
+                                    <c:if test = "${cuestionario.evaluacion == true}">
+                                        <div style="color:orange">Status: Completado</div>
+                                    </c:if>
+                                    
+                                    
+                                    <div style="color:orange; margin-top: 5px" >Evaluación: ${cuestionario.calificacion}</div>
                                 </div>
+                                
                             </c:forEach>
                         </c:if>
                     </div>

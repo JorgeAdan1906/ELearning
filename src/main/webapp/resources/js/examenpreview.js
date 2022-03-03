@@ -1,17 +1,22 @@
 const contenedor = document.getElementById("test");
+//const contenedorRespuestas = document.getElementById("testResp");
 const botonRes = document.getElementById("botonresultado");
 const resultadoTest = document.getElementById("resultado");
 
 var preguntas = [];
 let promedio = 0;
+var cantidadPreguntas = 0;
 
 function pasarVariables(dato) {
     preguntas = dato.slice();
-    console.log("arreglo copiado: " + dato[0].pregunta);
+    cantidadPreguntas = preguntas.length;
+    //console.log(cantidadPreguntas)
+    //console.log("arreglo copiado: " + dato[0].pregunta);
+    //console.log(preguntas);
 }
 
 function returnCalificacion(){
-    console.log("Promedio: " + promedio);
+    //console.log("Promedio: " + promedio);
     return promedio;
 }
 
@@ -22,6 +27,7 @@ function mostrarTest() {
         const respuestas = [];
 
         for (letraRespuesta in preguntaActual.respuestas) {
+            //console.log(letraRespuesta)
             respuestas.push(
                     `<label>
                   <input type="radio" name="${numeroDePregunta}" value="${letraRespuesta}" />
@@ -47,15 +53,22 @@ function mostrarTest() {
 
 function mostrarResultado() {
     const respuestas = contenedor.querySelectorAll(".respuestas");
+    //console.log(respuestas);
     let respuestasCorrectas = 0;
-
+    let resp = [];
     preguntas.forEach((preguntaActual, numeroDePregunta) => {
         const todasLasRespuestas = respuestas[numeroDePregunta];
+        //console.log(todasLasRespuestas);
         const checkboxRespuestas = `input[name='${numeroDePregunta}']:checked`;
         const respuestaElegida = (
                 todasLasRespuestas.querySelector(checkboxRespuestas) || {}
         ).value;
-
+        
+        //console.log("holaa");
+        //console.log(respuestaElegida);
+        resp.push(respuestaElegida);
+        //console.log(resp);
+        localStorage.setItem("resp", JSON.stringify(resp));
         if (respuestaElegida === preguntaActual.respuestaCorrecta) {
             respuestasCorrectas++;
             respuestas[numeroDePregunta].style.pointerEvents = "none";
@@ -64,7 +77,7 @@ function mostrarResultado() {
         }
     });
     promedio = (respuestasCorrectas / preguntas.length) * 10;
-    
+    //console.log(resp);
     if (promedio > 8) {
         resultadoTest.innerHTML =
                 "Usted ha acertado " +

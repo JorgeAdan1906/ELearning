@@ -36,25 +36,32 @@ public class CuestionarioServiceImpl implements CuestionarioService {
         return "cuestionario";
     }
 
-        @Override
+    @Override
     public String listAllCuestionariosById(Model model, int idCuestionario) {
         model.addAttribute("cuestionario", cuestionarioDao.getCuestionario(idCuestionario));
         model.addAttribute("preguntas", preguntasDao.findAll(idCuestionario));
+        //System.out.println("preguntas: " + preguntasDao.findAll(idCuestionario));
+        System.out.println("ok cuest service impl");
         return "examenuser";
     }
     
     @Override
     public String createNewCuestionario(int IdModulo, String nombre) {
         try{
-            //Obtener el Modulo
             Modulo modulo = new Modulo();
+            System.out.println("idModulo en serv impl: " + IdModulo );
             modulo = moduloDao.getModulo(IdModulo); //--> Establecer el ID del Modulo
-            //Crear el Cuestionario
-            Cuestionario cuestionario = new Cuestionario(nombre); //--> Recuperar Datos de la Vista
+            //Cuestionario cuestionario = new Cuestionario(nombre); //--> Recuperar Datos de la Vista
             //Agregar Cuestionario al Modulo (Solo relaciona las tablas)
-            modulo.addCuestionarios(cuestionario);
+            //modulo.addCuestionarios(cuestionario);
             //Agregar Cuestionario a la BD (Previamente se tuvieron que relacionar las tablas)
-            cuestionario = cuestionarioDao.create(cuestionario);
+            
+            Cuestionario cuestionario = new Cuestionario();
+            modulo = moduloDao.getModulo(IdModulo);
+            cuestionario.setIdModulo_(modulo);
+            cuestionario.setNombre(nombre);
+            
+            cuestionario = cuestionarioDao.create(cuestionario, IdModulo);
             
             //Retornar respuesta de exito
             return "Cuestionario creado";
@@ -94,7 +101,8 @@ public class CuestionarioServiceImpl implements CuestionarioService {
             //Recuperar por Id el Cuestionario ya existente
             cuestionario = cuestionarioDao.getCuestionario(idCuestionario);
             //Eliminar Cuestionario en la BD
-            if(cuestionarioDao.delete(cuestionario)){
+            //if(cuestionarioDao.delete(cuestionario)){
+            if(cuestionarioDao.deleteMisCuestionarioByCuestionario(cuestionario)){
                 //Retornar respuesta de exito
                 return true;
             } else 

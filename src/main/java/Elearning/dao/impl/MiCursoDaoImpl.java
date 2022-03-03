@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository("MiCursoDao")
 public class MiCursoDaoImpl implements MiCursoDao {
+    
+    CuestionarioDaoImpl cuestionarioDao = new CuestionarioDaoImpl();
 
     @Override
     public List<MiCurso> findAll() {
@@ -46,27 +48,22 @@ public class MiCursoDaoImpl implements MiCursoDao {
 
     @Override
     public MiCurso create(MiCurso entidad) {
-        //Obtener la secion 
+        System.out.println("********************llega a create miCurso");
+        System.out.println("entidad: " + entidad.getIdCurso());
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        //Ocupamos la transaccion en caso de error la base de datos se restaura a como estaba
         Transaction transaccion = session.getTransaction();
-
         try {
-            //Iniciamos Transaccion
             transaccion.begin();
-            //Guardamos la transaccion
             session.save(entidad);
             transaccion.commit();
-
         } catch (HibernateException e) {
-            //Si la transaccion esta bacia y ademas esta activa que regrese el estado en el que se encontraba la Base de Dato
             if (transaccion != null && transaccion.isActive()) {
                 transaccion.rollback();
             }
         } finally {
-            //Finalmente cerramos la sesion 
             session.close();
         }
+        cuestionarioDao.getCuestionariosByCurso(entidad.getIdCurso());
         return entidad;
     }
 
@@ -190,6 +187,7 @@ public class MiCursoDaoImpl implements MiCursoDao {
     @Override
     public boolean RelacionSem(int idUsuario, int idCurso) {
         //Obtener la secion 
+        System.out.println("llega a relacionSem");
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         //Ocupamos la transaccion en caso de error la base de datos se restaura a como estaba
         Transaction transaccion = session.getTransaction();

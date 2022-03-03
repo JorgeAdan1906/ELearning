@@ -12,4 +12,6 @@ public interface MiCuestionarioDao {
     public MiCuestionario update(MiCuestionario miCuestionario);
     public boolean delete(MiCuestionario miCuestionario);
     public Integer countApproved(int idUsuario,int idCurso);
+    public List<MiCuestionario> findAllByCursoByUsuario(int idCurso, int idUsuario);
+    public Boolean getEvaluacion(Integer idMiCuestionario);
 }

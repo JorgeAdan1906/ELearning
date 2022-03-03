@@ -199,7 +199,7 @@
     </div>
     <center>
         <div id="DivSCursos">
-            <img src="${pageContext.request.contextPath}/resources/imagenes/divScursos.png">
+            <img src="${pageContext.request.contextPath}/resources/imagenes/divSmicurso.png">
         </div>
     </center>
     <br>

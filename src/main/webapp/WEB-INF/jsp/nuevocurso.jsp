@@ -156,6 +156,7 @@
                                 <br>
                                 <select  name="categoria" id="simple-input" class="k-textbox" style="width: 100%;">
                                     <option disabled selected value="c">Selecciona una categoria</option>
+                                    <option>Politicas Internas </option>
                                     <option>Bienvenida a Desarrollador</option>
                                     <option>ITO (Ingeniero Tecnico Operativo)</option>
                                     <option>SGSI (Sistema de Gestion)</option>

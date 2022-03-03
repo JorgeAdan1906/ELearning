@@ -366,6 +366,7 @@
                 <label for="cat"></label>
                 <select name="categoria" id="cat" class="k-textbox">
                     <option disabled select>Selecciona una categoria</option>
+                    <option value="Politicas Internas">Politicas Internas</option>
                     <option value="Bienvenida a Desarrollador">Bienvenida a Desarrollador</option>
                     <option value="ITO (Ingeniero Tecnico Operativo)">ITO (Ingeniero Tecnico Operativo)</option>
                     <option value="SGSI (Sistema de Gestion)">SGSI (Sistema de Gestion)</option>

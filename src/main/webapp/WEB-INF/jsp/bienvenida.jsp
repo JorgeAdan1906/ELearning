@@ -216,6 +216,13 @@
 
                 <div class="container1">
                     <div class="card1">
+                        <a href="Cartas.html?categoria=Politicas Internas"> <img src="${pageContext.request.contextPath}/resources/imagenes/Back.jpg"></a>
+                        <br>
+                        <br>
+                        <h4>Politicas Internas</h4>
+                    </div>
+                        
+                    <div class="card1">
                         <a href="Cartas.html?categoria=Back-End"> <img src="${pageContext.request.contextPath}/resources/imagenes/Back.jpg"></a>
                         <br>
                         <br>

@@ -1,4 +1,3 @@
-
 package Elearning.controler;
 
 import Elearning.service.UsuarioService;
@@ -11,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-
 
 @Controller
 public class HomeController {
@@ -35,6 +32,9 @@ public class HomeController {
         ModelAndView mo = new ModelAndView();
         switch (usuarioService.createNewSemillero(request)) {
             case "existente":
+                HttpSession session = request.getSession();
+                session.setAttribute("ErrorMessage", "Este correo ya se encuentra registrado");
+                
                 mo.setViewName("error");
                 break;
             default:
@@ -56,6 +56,9 @@ public class HomeController {
                 mo.setViewName("admin");
                 break;
             default:
+                HttpSession session = request.getSession();
+                session.setAttribute("ErrorMessage", "El correo o la contraseña son incorrectos");
+                
                 mo.setViewName("error");
                 break;
         }
@@ -68,10 +71,13 @@ public class HomeController {
         ModelAndView mo = new ModelAndView();
         if(usuarioService.recuperarContraseña(request)){
             mo.setViewName("index");
-            System.out.println("Correo Emviado");
+            System.out.println("Correo Enviado");
         } else {
+            HttpSession session = request.getSession();
+            session.setAttribute("ErrorMessage", "Este correo aun no ha sido registrado");
+            
             mo.setViewName("error");
-            System.out.println("Correo no Emviado");
+            System.out.println("Correo no Enviado");
         }       
         return mo;
     } 

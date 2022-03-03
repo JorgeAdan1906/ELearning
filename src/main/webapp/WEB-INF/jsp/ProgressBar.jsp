@@ -183,6 +183,7 @@
                     });
 
                     function Completado(e) {
+                        $("#BtnContinuar${cursos.idCurso}").hide("slow");
                         $("#BtnCertificado${cursos.idCurso}").show("slow");
                     }
 

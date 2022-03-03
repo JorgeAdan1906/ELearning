@@ -8,6 +8,11 @@
     <title>ERROR</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/estiloErroExito.css">
  <style>
+    .body1 {
+        font-family: 'Varela Round', sans-serif;
+        justify-content: center;
+    }
+     
      .bg_animate{
     width: 100%;
     height: 15%;
@@ -93,17 +98,19 @@
         <div id= "logo"> 
              <center><img class="logop" src="${pageContext.request.contextPath}/resources/imagenes/logoazul.gif"alt=""></center>
         </div>
-    
     </header>
 
-     <center>
-      <img class="img1" src="${pageContext.request.contextPath}/resources/imagenes/error_1.png" alt="">
-      <h1 class="titulo">¡ERROR!<br>
-           Vuelve a intentarlo.</h1>
-            <a href="index.html" class="llamanos">Regresar</a>
-            <br>
-            <br>
-            
+    <center>
+        <img class="img1" src="${pageContext.request.contextPath}/resources/imagenes/error_1.png" alt="">
+        <h1 class="titulo">¡ERROR!</h1>
+        <br>
+        <h2 style="color:#B15D28;">Descripcion: </h2><h2 style="color:white">"${ErrorMessage}"</h2>
+        <br>
+        <br>
+        <br>
+        <a href="index.html" class="llamanos">Regresar</a>
+        <br>
+        <br>    
     </center>
 </body>
 </html>

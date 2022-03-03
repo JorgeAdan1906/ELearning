@@ -211,12 +211,22 @@
                     source: "${modulo.url}",
                     cuestionario: "${modulo.idCuestionario.idCuestionario}", 
                     curso: "${modulo.idCurso.idCurso}",
-                    ap: "${CuestionariosAprobados}"
+                    noCuestionario: "${CuestionariosAprobados}",
+                    idBtnCuestionario: "Curso"+"${modulo.idCuestionario.idCuestionario}"
                     },
                 </c:forEach>
                 ],
                 
                 });
+                kendo.ui.Selectable.fn._myTap = kendo.ui.Selectable.fn._tap;
+                kendo.ui.Selectable.fn._tap =  function(e) {
+                    if (e.target && $(e.target).hasClass("my-disabled-item")) return;
+                    this._myTap(e);
+                }
+
+                kendo.ui.ListView.fn.disableItems =  function(elem) {
+                    $(elem).addClass("my-disabled-item");
+                }
 
                 var listView = $("#listView").kendoListView({
                 dataSource: videos,
@@ -226,7 +236,7 @@
                 template: kendo.template($("#template").html()),
                 change: onChange,
                 dataBound: onDataBound,
-                });
+                }).data("kendoListView");
 
                 function onChange(e) {
                 //console.log(e.sender.options.selectable);
@@ -243,23 +253,31 @@
                 var dataItem = this.dataSource.view()[index];
                 $("#mediaplayer").data("kendoMediaPlayer").media(dataItem);
                 }
-
+             
                 function onDataBound(e){
-                console.log(e);    
-                console.log(e.sender.options.selectable);
-                //e.items[0].prop("selectable", false);
-                //(e.items[1]).prop("selected", true);            
-                //console.log(checa);
-                //console.log(e.items[0].ap);
-                var x = (listView);
-                if(e.items[0].ap === 1){
-                        console.log("cero se desactiva");
-                        x.enable(true);
-                    }
+                 
+                 console.log(e.items[0].noCuestionario);
+               
                 this.select(this.content.children().first());
+                var noCuestionario=parseInt(e.items[0].noCuestionario)+1;
+                var itemToDisable = this.items().slice(noCuestionario);
+                this.disableItems(itemToDisable);
+                var tamanioLista=e.items.length;
+              
+                for(var i=noCuestionario; i<tamanioLista; i++)document.getElementById(e.items[i].idBtnCuestionario).innerHTML = "";
+             
+                
+                
+ 
+                
                 }
+              
+               
+                     
                 });
-
+                
+              
+                
                 function enviarVistaExamenUser(idCuestionario) {
                 document.location.href = "CrearMiCuestionario.html?Evaluacion=0&IdUsuario=${UsuarioID}&IdCuestionario="+idCuestionario;
                 } 
@@ -273,7 +291,8 @@
                             <span >
                                 <img src="#:poster#" />
                                 <h5 style="font-weight: bold">#:title#</h5>  
-                                <span style="background-color: white; width:160px; margin-top: 7px" > 
+                               
+                                <span id="#:idBtnCuestionario#" style="background-color: white; width:160px; margin-top: 7px" > 
                                 <a onClick="enviarVistaExamenUser(#:cuestionario#)" target="_blank" style="color:orange; text-decoration:none">Realizar Cuestionario</a>
                                 </span>   
                             </span>

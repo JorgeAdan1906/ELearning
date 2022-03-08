@@ -428,14 +428,15 @@
 
         function alertActualizar() {
             document.querySelector('#formActualizar').addEventListener('submit', function (e) {
-
+                
                 var form = this;
                 e.preventDefault();
 
                 var valorPreg = parseInt(document.querySelector('#pregAct').value);
-                var valorResA = parseInt(document.querySelector('#resAct').value);
+                var valorResA = parseInt(document.querySelector('#resAAct').value);
                 var valorResB = parseInt(document.querySelector('#resBAct').value);
                 var valorResC = parseInt(document.querySelector('#resCAct').value);
+
                 if (!isNaN(valorPreg) || !isNaN(valorResA) || !isNaN(valorResB) || !isNaN(valorResC)) {
                     swal.fire({
                         title: "¡Dato invalido!",

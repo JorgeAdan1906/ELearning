@@ -38,11 +38,9 @@
                 column-count: 2;
                 column-gap: 60px;
                 column-rule: solid 2px #B15D28;
-
             }
 
             h1{
-
                 text-align: center;
                 display: inline-block;
                 position: relative;
@@ -52,23 +50,20 @@
             }
 
             h1::after,h1::before{
-
                 content: '';
                 position: absolute;
                 width: 120px;
                 height: 3px;
                 background-color: #B15D28;
                 top: 0.6em;
-
             }
+            
             h1::before{
                 left: -140px;
-
             }
 
             h1::after{
                 right: -140px;
-
             }
 
             input{
@@ -100,6 +95,7 @@
                 color:white;
                 border: none;
             }
+            
             input[type="submit"]{
                 width: 50%;
                 margin-bottom: 0;
@@ -111,7 +107,25 @@
                 font-family: "Font Awesome 5 Free"; 
                 font-weight: 1000;
             }
+            
             input[type="submit"]:hover{
+                cursor: pointer;
+                background-color: #f8f9fc;
+            }
+            
+            .btnCR{
+                width: 80%;
+                margin-bottom: 0;
+                background: #B15D28;
+                color: rgb(36, 33, 33);
+                border-radius: 5px;
+                border: none;
+                cursor: pointer;
+                font-family: "Font Awesome 5 Free"; 
+                font-weight: 1000;
+            }
+            
+            .btnCR:hover{
                 cursor: pointer;
                 background-color: #f8f9fc;
             }
@@ -122,14 +136,12 @@
                 text-align: center;
                 color: white;
                 border-collapse: collapse;
-
-
             }
+            
             th, td{
-
                 padding: 10px;
-
             }
+            
             tr {
                 border: #B15D28 2px solid;
             }
@@ -143,14 +155,33 @@
             .Editarr{
                 background-color: teal;
             }
+            
             #nom, #apeP, #apeM, #correo, #cont, #gen, #RFC{
                 background-color: #272727;
                 color: white;
             }
+            
             h1 {
                 color: black;
                 font-weight: bold;
             }
+            
+            .btnbtn-success{
+                width: 40px;
+                height: 40px;
+                background: #28A845;
+                text-align: center;
+                viewBox: 0 0 16 16;
+                cursor: pointer;
+                border:none;
+                border-radius: 5px;
+                color: white;
+            }
+            
+            .btnbtn-success:hover {
+                background: #218837;
+            }
+            
             .btnbtn-danger{
                 width: 40px;
                 height: 40px;
@@ -162,14 +193,15 @@
                 border-radius: 5px;
                 color: white;
             }
+            
             .btnbtn-danger:hover {
                background: #C82333;
             }
+            
             /*propiedad responsive*/
             @media(max-width:820px){
                 form{
                     width: 90%;
-
                 }
                 table {
                     display: block;
@@ -177,14 +209,35 @@
                 }
                 h1::after,h1::before{
                     display: none;
-
-                }
-
-                
+                } 
             }
-
         </style>
     </head>
+    <!-- Navigation-->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <div>
+                    <a href="admin.html"><img src="${pageContext.request.contextPath}/resources/imagenes/B1SOFT-LOGO.gif"></a>
+                </div>
+            </div>
+            <a href="#" class="toggle-button">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </a>
+            <div class="navbar-links">
+                <ul>
+                    <li><a href="perfiladmin.html">Mi perfil</a></li>
+                    <li><a href="nuevoadmin.html">Administradores</a></li>
+                    <li><a href="nuevosemillero.html">Semilleros</a></li>
+                    <li><a href="listadodecursos.html">Cursos</a></li>
+                    <li><a href="nuevocurso.html">Agregar nuevo curso</a></li>
+                    <li><span><a onclick="cerrarSession()" class="cta">Cerrar sesión</a></span></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
     <body class="body1">
         <%
             String tipoUsuario = (String) session.getAttribute("tUsuario");
@@ -196,245 +249,310 @@
                 response.sendRedirect("index.html");
             }
         %>
-        <!-- Navigation-->
-        <header>
-            <nav class="navbar">
-                <!--<div class="brand-title">Brand Name</div>-->
-                <div class="logo">
-                    <div>
-                        <a href="admin.html"><img src="${pageContext.request.contextPath}/resources/imagenes/B1SOFT-LOGO.gif"></a>
-                    </div>
-                </div>
-                <a href="#" class="toggle-button">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </a>
-                <div class="navbar-links">
-                    <ul>
-                        <li><a href="perfiladmin.html">Mi perfil</a></li>
-                        <li><a href="nuevoadmin.html">Administradores</a></li>
-                        <li><a href="nuevosemillero.html">Semilleros</a></li>
-                        <li><a href="listadodecursos.html">Cursos</a></li>
-                        <li><a href="nuevocurso.html">Agregar nuevo curso</a></li>
-                        <!--<li><a href="#">Cerrar sesión</a></li>-->
-                        <li><span><a onclick="cerrarSession()" class="cta">Cerrar sesión</a></span></li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
+                    
         <br>
 
-    <center><h1>Administradores</h1></center>
-
-    <form autocomplete="off" method="POST" action="addAdministrador.html">
+        <center><h1>Administradores</h1></center>
+        
+        <br>
         <center>
-            <label for="nom"></label> <input type="text" id="nom" placeholder="Nombre" required name="nombre">
-            <label for="apeP"></label> <input type="text" id="apeP" placeholder="Apellido paterno" required name="aPaterno">
-            <label for="apeM"></label> <input type="text" id="apeM" placeholder="Apellido materno" required name="aMaterno">
-            <select  name="genero" id="gen">
-                <option disabled selected value="g">Género:</option>
-                <option value="Femenino">Femenino</option>
-                <option value="Masculino">Masculino</option>
-            </select>
-            <label for="RFC"></label> <input type="text" id="RFC" placeholder=" RFC" required name="rfc">
-            <label for="email"></label> <input type="text" id="correo" placeholder="Correo" required name="email">
-            <label for="contrasena"></label> <input type="password" id="cont" placeholder="Contraseña" required name="contrasena">
-            <br>
-            <br>
-            <center><input class="submit" type="submit" value="Guardar"></center> 
+            <form id="FormAdmin" method="POST" action="addAdministrador.html">
+                <input type="text" id="nom" placeholder="Nombre" required name="nombre">
+                <input type="text" id="apeP" placeholder="Apellido paterno" required name="aPaterno">
+                <input type="text" id="apeM" placeholder="Apellido materno" required name="aMaterno">
+                <select  name="genero" id="gen">
+                    <option disabled selected value="g">Género:</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Masculino">Masculino</option>
+                </select>
+                <input type="text" id="RFC" placeholder=" RFC" required name="rfc">
+                <input type="text" id="corre" placeholder="Correo" required name="email">
+                <input type="password" id="con" placeholder="Contraseña" required name="contrasena">
+                <div id="IdAdmin" style="display:none;">
+                    <input type="text" id="adminId" placeholder="Id" name="idUsuario">
+                </div>
+                <br>
+                <br>
+                <center>
+                    <div id="DivBtnGuardar">
+                        <div style="width: 100%">
+                            <input class="submit" type="submit" onclick="alertGuardar()" value="Crear Administrador">
+                        </div>  
+                    </div>
+                    <div id="DivBtnActualizar">
+                        <div style="float: left; width: 50%">
+                            <input class="submit" type="submit" onclick="alertActualizar()" value="Guardar">
+                        </div>
+                        <div style="float: right; width: 50%">
+                            <input class="btnCR" type="button" onclick="cancelActualizar()" value="Cancelar">
+                        </div>   
+                    </div>
+                </center>
+            </form>
         </center>
-    </form>
-
-
-    <br>
-    <center>
-        <div class="tablita">
-            <table class="tabla" id="tabla">
-
-                <thead>
-                    <tr > 
-                        <th>Nombre</th> 
-                        <th>Apellido Paterno</th>
-                        <th>Apellido Materno</th>
-                        <th>Correo</th>
-                        <th>RFC</th>
-                        <th>Opciones</th>
-                    </tr>
-                </thead>
-                <c:forEach items="${administradores}" var="admin">
-                    <tr>
-                        <td><c:out value="${admin.nombre}"></c:out></td>
-                        <td><c:out value="${admin.aPaterno}"></c:out></td>
-                        <td><c:out value="${admin.aMaterno}"></c:out></td>
-                        <td><c:out value="${admin.email}"></c:out></td>
-                        <td><c:out value="${admin.rfc}"></c:out></td>
+        
+        <br>
+        <br>
+        
+        <center>
+            <div class="tablita">
+                <table class="tabla" id="tabla">
+                    <thead>
+                        <tr> 
+                            <th>Nombre</th> 
+                            <th>Apellido Paterno</th>
+                            <th>Apellido Materno</th>
+                            <th>Genero</th>
+                            <th>RFC</th>
+                            <th>Correo</th>
+                            <th>Contraseña</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <c:forEach items="${administradores}" var="admin">
+                        <tr>
+                            <td><c:out value="${admin.nombre}"></c:out></td>
+                            <td><c:out value="${admin.aPaterno}"></c:out></td>
+                            <td><c:out value="${admin.aMaterno}"></c:out></td>
+                            <td><c:out value="${admin.genero}"></c:out></td>
+                            <td><c:out value="${admin.rfc}"></c:out></td>
+                            <td><c:out value="${admin.email}"></c:out></td>
+                            <td><c:out value="${admin.contrasena}"></c:out></td>
                             <td>
-                                <a  onclick="return confirm(${admin.idUsuario});"  >
-                                <button type="button"  class="btnbtn-danger"  >
+                                <button type="button"  class="btnbtn-danger" onclick="return confirm(${admin.idUsuario});">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash " viewBox="0 0 16 16">
-                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                                     </svg>
                                 </button>
-                            </a>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
-        </div>
-    </center>
+                                <button type="button" class="btnbtn-success" onClick="Editarr(this,${admin.idUsuario})" >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
+        </center>
 
-    <br/>
-    <script>
+        <br/>
+        
+        <script>
+            var Fila = null;
+    
+            document.getElementById('DivBtnActualizar').style.display = 'none';
+            
+            function Vaciar() {
+                document.getElementById("nom").value = "";
+                document.getElementById("apeP").value = "";
+                document.getElementById("apeM").value = "";
+                document.getElementById("corre").value = "";
+                document.getElementById("con").value = "";
+                document.getElementById("gen").value = 'g';
+                document.getElementById("RFC").value = "";
+                
+                document.getElementById("nom").focus();
+            }
+            
+            function Editarr(td, id) {
+                Fila = td.parentElement.parentElement;
+                document.getElementById("nom").value = Fila.cells[0].innerHTML;
+                document.getElementById("apeP").value = Fila.cells[1].innerHTML;
+                document.getElementById("apeM").value = Fila.cells[2].innerHTML;
+                document.getElementById("gen").value = Fila.cells[3].innerHTML;
+                document.getElementById("RFC").value = Fila.cells[4].innerHTML;
+                document.getElementById("corre").value = Fila.cells[5].innerHTML;
+                document.getElementById("con").value = Fila.cells[6].innerHTML;
+                document.getElementById("adminId").value = id;
+                
+                document.getElementById('DivBtnGuardar').style.display = 'none';
+                document.getElementById('DivBtnActualizar').style.display = 'block';
+            }
+            
+            function alertGuardar() {
+                document.querySelector('#FormAdmin').addEventListener('submit', function (e) {
 
-        function confirm(id) {
+                    var form = this;
+                    e.preventDefault();
 
-            Swal.fire({
-                title: '¿Estas seguro de eliminar el Administrador?',
-                text: "Si se elimina no se podra revertir",
-                icon: 'warning',
-                iconColor: '#B15D28',
-                showCancelButton: true,
-                confirmButtonText: 'Eliminar',
-                confirmButtonColor: '#203853',
-                cancelButtonColor: '#B15D28',
-                cancelButtonText: 'Cancelar',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.location.href = "eliminarAdmin.html?idUsuario=" + id;
-                    Swal.fire({
-                        title: '¡Eliminado!',
-                        text: 'Se elimino el Administrador',
-                        icon: 'success',
-                        iconColor: '#203853',
-                        confirmButtonColor: '#B15D28'
+                    swal.fire({
+                        title: "¿Desea crear un nuevo Administrador?",
+                        text: "",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: "Sí, crear",
+                        confirmButtonColor: '#203853',
+                        cancelButtonColor: '#B15D28',
+                        cancelButtonText: "Cancelar"
                     })
-                } else if (
-                        /* Read more about handling dismissals below*/
-                        result.dismiss === Swal.DismissReason.cancel
-                        ) {
-                    Swal.fire({
-                        title: '¡Cancelado!',
-                        text: 'No se elimino ningun Administrador',
+                    .then(function (isConfirm) {
+                        if (isConfirm.value) {
+                            swal.fire({
+                                title: "El Administrador se creo correctamente",
+                                text: "",
+                                icon: 'success',
+                                iconColor: '#203853',
+                                confirmButtonColor: '#B15D28'
+                            })
+                            .then(function () {
+                                document.getElementById("adminId").value = "";
+                                form.submit();
+                            });
+                        } else {
+                            swal.fire({
+                                title: "No se creo el Administrador",
+                                text: "",
+                                icon: 'error',
+                                iconColor: '#B15D28',
+                                confirmButtonColor: '#203853'
+                            })
+                            .then(function () {
+                                Vaciar();
+                                document.getElementById("nom").focus();
+                            });
+                        }
+                    });
+                });
+            }
+            
+            function alertActualizar() {
+                document.querySelector('#FormAdmin').addEventListener('submit', function (e) {
+
+                    var form = this;
+                    e.preventDefault();
+
+                    swal.fire({
+                        title: "¿Desea Actualizar los datos del Administrador?",
+                        text: "",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: "Sí, Actualizar",
+                        confirmButtonColor: '#203853',
+                        cancelButtonColor: '#B15D28',
+                        cancelButtonText: "Cancelar"
+                    })
+                    .then(function (isConfirm) {
+                        if (isConfirm.value) {
+                            swal.fire({
+                                title: "El Administrador se actualizo correctamente",
+                                text: "",
+                                icon: 'success',
+                                iconColor: '#203853',
+                                confirmButtonColor: '#B15D28'
+                            })
+                            .then(function () {
+                                form.submit();
+                            });
+                        } else {
+                            swal.fire({
+                                title: "No se actualizo el Administrador",
+                                text: "",
+                                icon: 'error',
+                                iconColor: '#B15D28',
+                                confirmButtonColor: '#203853'
+                            })
+                            .then(function () {
+                                document.getElementById('DivBtnGuardar').style.display = 'block';
+                                document.getElementById('DivBtnActualizar').style.display = 'none';
+                                
+                                Vaciar();
+                                document.getElementById("tabla").focus();
+                            });
+                        }
+                    });
+                });
+            }
+            
+            function cancelActualizar() {
+                document.getElementById('DivBtnGuardar').style.display = 'block';
+                document.getElementById('DivBtnActualizar').style.display = 'none';
+                
+                Vaciar();
+                document.getElementById("tabla").focus();
+            }
+            
+            function confirm(id) {
+                if(id == 1){
+                    swal.fire({
+                        title: '¡VAYA!',
+                        text: 'No se puede eliminar este Administrador',
                         icon: 'error',
                         iconColor: '#B15D28',
                         confirmButtonColor: '#203853'
-                    })
+                    });
+                } else{
+                    swal.fire({
+                        title: '¿Estas seguro de eliminar el Administrador?',
+                        text: "Si se elimina no se podra revertir",
+                        icon: 'warning',
+                        iconColor: '#B15D28',
+                        showCancelButton: true,
+                        confirmButtonText: 'Eliminar',
+                        confirmButtonColor: '#203853',
+                        cancelButtonColor: '#B15D28',
+                        cancelButtonText: 'Cancelar',
+                        reverseButtons: true
+                    }).then(function (result) {
+                        if (result.value) {
+                            swal.fire({
+                                title: '¡Eliminado!',
+                                text: 'Se elimino el Administrador',
+                                icon: 'success',
+                                iconColor: '#203853',
+                                confirmButtonColor: '#B15D28'
+                            }).then(function () {
+                                document.location.href = "eliminarAdmin.html?idUsuario=" + id;
+                            });
+                        }else {
+                            swal.fire({
+                                title: '¡Cancelado!',
+                                text: 'No se elimino ningun Administrador',
+                                icon: 'error',
+                                iconColor: '#B15D28',
+                                confirmButtonColor: '#203853'
+                            });
+                        }
+                    });
                 }
-            })
-        }
-
-
-
-        var Fila = null
-        function onSubmit() {
-            let DataForm = Leer()
-            if (Fila == null) {
-                InsertarDatos(DataForm)
-            } else {
-                Actualizar(DataForm)
-                Vaciar()
             }
-        }
-        function InsertarDatos(data) {
-            let table = document.getElementById("tabla").getElementsByTagName('tbody')[0]
-            let Fila = table.insertRow(table.length)
-            columna1 = Fila.insertCell(0).innerHTML = data.nom
-            columna2 = Fila.insertCell(1).innerHTML = data.apeP
-            columna3 = Fila.insertCell(2).innerHTML = data.apeM
-            columna4 = Fila.insertCell(3).innerHTML = data.correo
-            columna5 = Fila.insertCell(4).innerHTML = data.cont
-            columna6 = Fila.insertCell(5).innerHTML = data.gen
-            columna7 = Fila.insertCell(6).innerHTML = data.RFC
-            columna8 = Fila.insertCell(7).innerHTML = `<input class="submit" type="button" onClick="Editarr(this)" value="Editar" >
-                                    <input class="submit" type="button" onClick="Borrarr(this)" value="Borrar" >`
-            document.getElementById("nom").focus()
-            Vaciar()
-        }
-        function Vaciar() {
-            document.getElementById("nom").value = ""
-            document.getElementById("apeP").value = ""
-            document.getElementById("apeM").value = ""
-            document.getElementById("correo").value = ""
-            document.getElementById("cont").value = ""
-            document.getElementById("gen").value = ""
-            document.getElementById("RFC").value = ""
-            Fila = null
-        }
-        function Editarr(td) {
-            Fila = td.parentElement.parentElement
-            document.getElementById("nom").value = Fila.cells[0].innerHTML
-            document.getElementById("apeP").value = Fila.cells[1].innerHTML
-            document.getElementById("apeM").value = Fila.cells[2].innerHTML
-            document.getElementById("correo").value = Fila.cells[3].innerHTML
-            document.getElementById("cont").value = Fila.cells[4].innerHTML
-            document.getElementById("gen").value = Fila.cells[5].innerHTML
-            document.getElementById("RFC").value = Fila.cells[6].innerHTML
-        }
-        function Actualizar(DataForm) {
-            Fila.cells[0].innerHTML = DataForm.nom
-            Fila.cells[1].innerHTML = DataForm.apeP
-            Fila.cells[2].innerHTML = DataForm.apeM
-            Fila.cells[3].innerHTML = DataForm.correo
-            Fila.cells[4].innerHTML = DataForm.cont
-            Fila.cells[5].innerHTML = DataForm.gen
-            Fila.cells[6].innerHTML = DataForm.RFC
-            document.getElementById("nom").focus()
-        }
-        function Borrarr(td) {
-            if (confirm('¿Estás Seguro de borrar este módulo?')) {
-                row = td.parentElement.parentElement
-                document.getElementById("tabla").deleteRow(row.rowIndex)
-                Vaciar()
-            }
-        }
+        </script>
 
+        <br/>
+        <br/>
+    </body>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!--Footer-->
+    <footer>
+        <div class="footer-content">
+            <h3>B1 SOFT LATINOAMERICA</h3>
+
+            <ul class="socials">
+                <li><a href="#"><i class="fab fa-facebook"></i></a>
+                <li><a href="#"><i class="fab fa-twitter"></i></a>
+                <li><a href="#"><i class="fab fa-google"></i></a>
+                <li><a href="#"><i class="fab fa-youtube"></i></a>
+                <li><a href="#"><i class="fab fa-linkedin"></i></a>
+            </ul>
+        </div>
+        <div class="footer-bottom">
+            <p>2021. <span>B1 SOFT</span></p>
+        </div>
+    </footer>
+    
+    <script>
+        function cerrarSession() {
+            $(location).attr('href', "cerrarSession.html")
+        }
     </script>
-
-</form>
-<br/>
-<br/>
-</div>
-
-
-<!--Footer-->
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-
-
-
-
-<footer>
-    <div class="footer-content">
-        <h3>B1 SOFT LATINOAMERICA</h3>
-
-        <ul class="socials">
-            <li><a href="#"><i class="fab fa-facebook"></i></a>
-            <li><a href="#"><i class="fab fa-twitter"></i></a>
-            <li><a href="#"><i class="fab fa-google"></i></a>
-            <li><a href="#"><i class="fab fa-youtube"></i></a>
-            <li><a href="#"><i class="fab fa-linkedin"></i></a>
-        </ul>
-    </div>
-    <div class="footer-bottom">
-        <p>2021. <span>B1 SOFT</span></p>
-    </div>
-</footer>
-</body>
-<script>
-    function cerrarSession() {
-
-        $(location).attr('href', "cerrarSession.html")
-
-    }
-</script>
 </html>

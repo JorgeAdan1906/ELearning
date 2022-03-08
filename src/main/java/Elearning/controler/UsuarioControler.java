@@ -2,7 +2,6 @@ package Elearning.controler;
 
 import Elearning.service.UsuarioService;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,19 +16,15 @@ public class UsuarioControler {
     @Autowired
     private UsuarioService usuarioService;
 
-    //Crear un Administrador 
+    //Crear o Actualizar Administrador 
     @RequestMapping(value = "addAdministrador.html", method = RequestMethod.POST)
-    public ModelAndView addAdministrador(HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mo = new ModelAndView();
-        switch (usuarioService.createNewAdminsitrador(request)) {
-            case "existente":
-                mo.setViewName("error");
-                break;
-            default:
-                mo.setViewName("redirect:/nuevoadmin.html");
-                break;
-        }
-        return mo;
+    public String AddAdministrador(HttpServletRequest request, @RequestParam("idUsuario") String idUsuario){
+        if(idUsuario.equals(""))
+            usuarioService.createNewAdminsitrador(request);
+        else
+            usuarioService.updateUsuarioAdmin(request);
+        
+        return "redirect:/nuevoadmin.html";
     }
 
     @RequestMapping(value = "actualizarSemillero.html", method = RequestMethod.POST)
@@ -52,6 +47,17 @@ public class UsuarioControler {
     @RequestMapping(value = "nuevosemillero.html", method = RequestMethod.GET)
     public String listarSemilleros(Model model) {
         return usuarioService.readSem(model);
+    }
+    
+    //Crear o Actualizar Semilleros
+    @RequestMapping(value = "CrearActualizarSemillero.html", method = RequestMethod.POST)
+    public String CrearActualizarSemillero(HttpServletRequest request, @RequestParam("idUsuario") String idUsuario){
+        if(idUsuario.equals(""))
+            usuarioService.createNewSemillero(request);
+        else
+            usuarioService.updateUsuario(request);
+        
+        return "redirect:/nuevosemillero.html";
     }
 
     //Mostrar los datos en la pantalla de actualizar datos 

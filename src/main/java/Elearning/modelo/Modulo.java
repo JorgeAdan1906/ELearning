@@ -50,7 +50,7 @@ public class Modulo implements Serializable {
     private Cuestionario idCuestionario;
     
     //Relacion UNO A MUCHOS con Preguntas
-    @OneToMany(mappedBy = "idModulo_",fetch=FetchType.LAZY, cascade = {CascadeType.ALL,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+    @OneToMany(mappedBy = "idModulo_",fetch = FetchType.LAZY,cascade = {CascadeType.ALL,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
     //@LazyCollection(LazyCollectionOption.FALSE)
     private List<Cuestionario> idCuestionario_;
 
@@ -130,7 +130,13 @@ public class Modulo implements Serializable {
 //    public String toString() {
 //        return "Modulo{" + "idModulo=" + idModulo + ", titulo=" + titulo + ", descripcion=" + descripcion + ", url=" + url + ", idCurso=" + idCurso + ", idCuestionario=" + idCuestionario + ", idCuestionario_=" + idCuestionario_ + '}';
 //    }
+    
+    
 //    
+
+    
+
+    
     
     
     

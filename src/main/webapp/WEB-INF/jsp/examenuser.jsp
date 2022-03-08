@@ -146,7 +146,7 @@
         myTimer();
      </script>
      <div style="text-align: center">
-       <p id="tiempoEtiqueta">Tiempo Total: 1 Min</p>  
+       <p id="tiempoEtiqueta">Tiempo Total: 13 Min</p>  
       </div>
       <div id="timer" class="progress-bar">
 	<span class="bar_timer">
@@ -233,21 +233,21 @@
             
             //console.log(x);
             //console.log(x.length);
-            for(var i = 0; i<x[0].length; i++){
+            for(var i = 0; i<x.length; i++){
                 //console.log("for x")
                 //console.log(x[0][i]);
-                console.log("Pregunta " + (i+1) + ": " +x[0][i] );
-                if( x[0][i] === "a" ){
-                    document.getElementById('tusResp').innerHTML += "<p style='color: #07D707; display: inline-block'>Pregunta " + (i+1) + ": " +x[0][i] + "</p>" ;
-                } else if(x[0][i] === "b"){
-                    document.getElementById('tusResp').innerHTML += "<p style='color: red; display: inline-block'>Pregunta " + (i+1) + ": " +x[0][i] + "</p>" ;
-                }  else if(x[0][i] === "c"){
-                    document.getElementById('tusResp').innerHTML += "<p style='color: red; display: inline-block'>Pregunta " + (i+1) + ": " +x[0][i] + "</p>" ;
+                console.log("Pregunta " + (i+1) + ": " +x[i] );
+                if( x[i] === "a" ){
+                    document.getElementById('tusResp').innerHTML += "<p style='color: #07D707; display: inline-block'>Pregunta " + (i+1) + ": " +x[i] + "</p>" ;
+                } else if(x[i] === "b"){
+                    document.getElementById('tusResp').innerHTML += "<p style='color: red; display: inline-block'>Pregunta " + (i+1) + ": " +x[i] + "</p>" ;
+                }  else if(x[i] === "c"){
+                    document.getElementById('tusResp').innerHTML += "<p style='color: red; display: inline-block'>Pregunta " + (i+1) + ": " +x[i] + "</p>" ;
                 } else{
                     document.getElementById('tusResp').innerHTML += "<p style='color: red; display: inline-block'>Pregunta " + (i+1) + ": Sin responder</p>" ;
                 }
                 //document.getElementById('tusResp').innerHTML += "Pregunta " + (i+1) + ": " +x[0][i] ;
-                document.getElementById('tusResp').innerHTML += "<br>" ;
+                document.getElementById('tusResp').innerHTML += "<br>";
             }
             document.getElementById('tusResp').innerHTML += "<br>" ;
             <c:forEach var="preg" items="${preguntas}">
@@ -314,6 +314,7 @@
         }
         
         function ScoreApro(Calificacion){
+            console.log("scoreAPro")
             swal.fire({
                 title: "¡Buen trabajo!",
                 text: "APROBADO - Calificación: " + Calificacion,
@@ -329,11 +330,13 @@
             //document.location.href = "ActualizarMiCuestionario.html?idCurso=" + ${CursoID} + "&idUsuario=" + ${UsuarioID} + "&idCuestionario=" + ${cuestionario.idCuestionario} + "&Evaluacion=1";     
             var x = [];
             x = getResp();
-            console.log("resp jsp: " + x);
+            //console.log("resp jsp: " + x);
+            console.log(x);
             ocultar(x);
         }
         
         function ScoreRepro(Calificacion){
+            console.log("scoreRepro");
             swal.fire({
                 title: "¡Esfuerzate más!",
                 text: "REPROBADO - Calificación: " + Calificacion,
@@ -349,7 +352,8 @@
             });
             var x = [];
             x = getResp();
-            console.log("resp jsp: " + x);
+            //console.log("resp jsp: " + x);
+            console.log(x);
             ocultar(x);
             //ocultar();
         }

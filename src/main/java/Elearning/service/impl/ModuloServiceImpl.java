@@ -146,9 +146,10 @@ public class ModuloServiceImpl implements ModuloService {
                     //cantidad n de videos al curso 
                     cursoentidad.addModulos(entidad);
                     entidad = moduloDao.create(entidad);
-                    mo.setViewName("redirect:/anadirmodulos.html");
+                    //mo.setViewName("redirect:/anadirmodulos.html");
+                    mo.setViewName("redirect:/actualizarmodulos.html?CursoE=" + entidad.getIdCurso());
                 } else {
-                    mo.setViewName("primerosmodulos.html");
+                    //mo.setViewName("primerosmodulos.html");
                     System.out.println("Error al crear la Url de DropBox");
                     return mo;
                 }
@@ -160,13 +161,14 @@ public class ModuloServiceImpl implements ModuloService {
                 System.out.println("La URL es de youtube y ya esta almacenada en la Base de datos");
                 cursoentidad.addModulos(entidad);
                 entidad = moduloDao.create(entidad);
-                mo.setViewName("redirect:/anadirmodulos.html");
+                //mo.setViewName("redirect:/anadirmodulos.html");
+                mo.setViewName("redirect:/actualizarmodulos.html?CursoE=" + entidad.getIdCurso());
             }
             
         } catch (Exception e) {
             e.printStackTrace();
             Logger.getLogger(ModuloServiceImpl.class.getName()).log(Level.SEVERE, null, e);
-            mo.setViewName("primerosmodulos.html");
+            //mo.setViewName("primerosmodulos.html");
         } 
         return mo;
     }
@@ -232,7 +234,8 @@ public class ModuloServiceImpl implements ModuloService {
                 updatemodulo = moduloDao.update(updatemodulo);
                 System.out.println("Modulo Actualizado con nueva url");
                 if (Vista == 1) {
-                    return "redirect:/anadirmodulos.html";
+                    //return "redirect:/anadirmodulos.html";
+                   return "redirect:/actualizarmodulos.html?CursoE=" + curso.getIdCurso();
                 } else {
                     return "redirect:/actualizarmodulos.html?CursoE=" + curso.getIdCurso();
                 }       
@@ -244,7 +247,8 @@ public class ModuloServiceImpl implements ModuloService {
                 updatemodulo = moduloDao.update(updatemodulo);
                 System.out.println("Modulo Actualizado con nueva Url de Youtube");
                 if (Vista == 1) {
-                    return "redirect:/anadirmodulos.html";
+                    //return "redirect:/anadirmodulos.html";
+                    return "redirect:/actualizarmodulos.html?CursoE=" + curso.getIdCurso();
                 } else {
                     return "redirect:/actualizarmodulos.html?CursoE=" + curso.getIdCurso();
                 }
@@ -255,7 +259,8 @@ public class ModuloServiceImpl implements ModuloService {
                 updatemodulo = moduloDao.update(updatemodulo);
                 System.out.println("Modulo actualizado sin url nueva");
                 if (Vista == 1) {
-                    return "redirect:/anadirmodulos.html";
+                    //return "redirect:/anadirmodulos.html";
+                    return "redirect:/actualizarmodulos.html?CursoE=" + curso.getIdCurso();
                 } else {
                     return "redirect:/actualizarmodulos.html?CursoE=" + curso.getIdCurso();
                 }

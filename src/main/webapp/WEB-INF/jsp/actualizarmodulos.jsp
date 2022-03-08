@@ -325,7 +325,7 @@
     <div id="DivAgregar" class="caja">
         <form id="form" action="anadirModulos.html" method="POST" enctype="multipart/form-data">
             <center>
-                <label for="nom"></label> <input type="text" name="titulo" id="nom" placeholder="Nombre" required>
+                <label for="nom"></label> <input type="text" name="titulo" id="nom" placeholder="Nombre anadir" required>
                 <br>
                 <label for="des"></label> <input type="text" name="descripcion" id="des" placeholder="Descripcion" required>
                 <br>
@@ -356,7 +356,7 @@
     <div id="DivActualizar" class="caja">
         <form id="formActualizar" action="ActualizarModulo.html?VistaA=2" method="POST" enctype="multipart/form-data">
             <center>
-                <label for="nom"></label> <input type="text" name="titulo" id="nomAc" placeholder="Nombre" required>
+                <label for="nom"></label> <input type="text" name="titulo" id="nomAc" placeholder="Nombre actualizar" required>
                 <br> 
                 <label for="des"></label> <input type="text" name="descripcion" id="desAc" placeholder="Descripcion" required>
                 <br>
@@ -521,8 +521,10 @@
         }
 
         function cancelActualizar() {
-            $("#DivActualizar").hide("normal");
-            $("#DivAgregar").show("normal");
+            //$("#DivActualizar").hide("normal");
+            //$("#DivAgregar").show("normal");
+            $("#DivActualizar").show("normal");
+            $("#DivAgregar").hide("normal");
         }
 
         function alertActualizar() {
@@ -573,8 +575,10 @@
                                 confirmButtonColor: '#203853'
                             })
                             .then(function () {
-                                document.getElementById('DivActualizar').style.display = 'none';
-                                document.getElementById('DivAgregar').style.display = 'block';
+                                //document.getElementById('DivActualizar').style.display = 'none';
+                                //document.getElementById('DivAgregar').style.display = 'block';
+                                document.getElementById('DivActualizar').style.display = 'block';
+                                document.getElementById('DivAgregar').style.display = 'none';
                             });
                         }
                     });

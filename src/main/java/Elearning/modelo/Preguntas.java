@@ -34,7 +34,8 @@ public class Preguntas implements Serializable{
     private String respuestaC;
     
     //Relación MUCHOS a UNO con Cuestionario
-    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+    //PRIMERO ESTABA EN PERSIST
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.ALL,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
     @JoinColumn(name="idCuestionario")
     private Cuestionario idCuestionario;
 

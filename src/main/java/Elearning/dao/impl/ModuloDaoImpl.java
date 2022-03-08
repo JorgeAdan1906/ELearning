@@ -130,36 +130,6 @@ public class ModuloDaoImpl implements ModuloDao {
     }
 
     @Override
-    public boolean delete(Modulo elModulo) {
-        //Obtener la secion 
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        //Ocupamos la transaccion en caso de error la base de datos se restaura a como estaba
-        Transaction transaccion = session.getTransaction();
-        boolean flag = true;
-
-        try {
-            //Iniciamos Transaccion
-            transaccion.begin();
-            //Actualizamos los datos 
-            session.delete(elModulo);
-            transaccion.commit();
-
-        } catch (HibernateException e) {
-            //Si la transaccion esta bacia y ademas esta activa que regrese el estado en el que se encontraba la Base de Dato
-            if (transaccion != null && transaccion.isActive()) {
-                transaccion.rollback();
-            }
-            flag = false;
-
-        } finally {
-            //Finalmente cerramos la sesion 
-            session.close();
-        }
-
-        return flag;
-    }
-
-    @Override
     public List<Modulo> findbyCurso_media(int idCurso) {
         //Obtener la secion 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -217,10 +187,8 @@ public class ModuloDaoImpl implements ModuloDao {
                     
             //Amacenamos los datos en la lista declarada anteriormente 
             lista = query.list();
-            System.out.println("+++++++++++++++");
-            System.out.println("LISTA: " + lista);
-            System.out.println(query);
-            System.out.println("+++++++++++++++");
+            //System.out.println("LISTA: " + lista);
+            //System.out.println(query);
             lista.size();
             //regresa el commit
             transaccion.commit();
@@ -264,5 +232,156 @@ public class ModuloDaoImpl implements ModuloDao {
         }
         return "ok";    
     }
+
+    @Override
+    public boolean delete(Modulo elModulo) {
+        noCheckModulo();
+        noCheckCuestionario();
+        noCheckPregunta();
+        CuestionarioDaoImpl cuestDao = new CuestionarioDaoImpl();
+        System.out.println("EL modulo titulo: " + elModulo.getTitulo());
+        System.out.println("EL modulo idCuest: " + elModulo.getIdCuestionario());
+        //System.out.println("idCuest: " + elModulo.getIdCuestionario());
+        //cuestDao.deleteMisCuestionarioByCuestionario(elModulo.getIdCuestionario());
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction transaccion = session.getTransaction();
+        boolean flag=true;
+        try {
+            System.out.println("entra al try de delete modulo");
+            transaccion.begin();
+            Query miQuery;
+            miQuery = session.createSQLQuery("delete from Modulo where idModulo="+ elModulo.getIdModulo());
+            int resp = miQuery.executeUpdate();
+            transaccion.commit();
+
+        } catch (HibernateException e) {
+            if (transaccion != null && transaccion.isActive()) {
+                transaccion.rollback();
+            }
+            flag=false;
+            
+        } finally {
+            session.close();
+        }
+        return true;
+    }
+    
+    
+    @Override
+    public boolean noCheckModulo() {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction transaccion = session.getTransaction();
+        boolean flag=true;
+        try {
+            System.out.println("nocheck modulo");
+            transaccion.begin();
+            Query miQuery;
+            miQuery = session.createSQLQuery(" ALTER TABLE Modulo nocheck constraint FK__Modulo__idCuesti__5AEE82B9");
+            int resp = miQuery.executeUpdate();
+            transaccion.commit();
+
+        } catch (HibernateException e) {
+            System.out.println("Error nocheck modulo: " + e);
+            if (transaccion != null && transaccion.isActive()) {
+                transaccion.rollback();
+            }
+            flag=false;
+            
+        } finally {
+            session.close();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean noCheckCuestionario() {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction transaccion = session.getTransaction();
+        boolean flag=true;
+        try {
+            System.out.println("No chceck Cuest");
+            transaccion.begin();
+            Query miQuery;
+            miQuery = session.createSQLQuery("ALTER TABLE Cuestionario nocheck constraint FK_modulo");
+            int resp = miQuery.executeUpdate();
+            transaccion.commit();
+
+        } catch (HibernateException e) {
+            System.out.println("Error No check cuest: " + e);
+            if (transaccion != null && transaccion.isActive()) {
+                transaccion.rollback();
+            }
+            flag=false;
+            
+        } finally {
+            session.close();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean CheckModulo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean CheckCuestionario() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean noCheckPregunta() {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction transaccion = session.getTransaction();
+        boolean flag=true;
+        try {
+            System.out.println("No chceck Cuest");
+            transaccion.begin();
+            Query miQuery;
+            miQuery = session.createSQLQuery("ALTER TABLE Preguntas nocheck constraint FK_Cuestionario");
+            int resp = miQuery.executeUpdate();
+            transaccion.commit();
+
+        } catch (HibernateException e) {
+            System.out.println("Error No check preg: " + e);
+            if (transaccion != null && transaccion.isActive()) {
+                transaccion.rollback();
+            }
+            flag=false;
+            
+        } finally {
+            session.close();
+        }
+        return true;}
+
+    @Override
+    public List<Integer> findIdsbyCurso(int idCurso) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction transaccion = session.getTransaction();
+        List<Integer> lista = null;
+        List<Modulo> listaM = null;
+        try {
+            transaccion.begin();
+            Query <Integer> query = session.createSQLQuery("select idModulo from Modulo mo where mo.idCurso=:c") 
+                    .setParameter("c", idCurso);
+                    
+            //Amacenamos los datos en la lista declarada anteriormente 
+            lista = query.list();
+            //System.out.println("LISTA: " + lista);
+            //System.out.println(query);
+            lista.size();
+            //regresa el commit
+            transaccion.commit();
+        } catch (HibernateException e) {
+            //Si la transaccion esta bacia y ademas esta activa que regrese el estado en el que se encontraba la Base de Datos
+            if (transaccion != null && transaccion.isActive()) {
+                transaccion.rollback();
+            }
+        } finally {
+            //Finalmente cerramos la sesion 
+            session.close();
+        }
+        System.out.println(lista);
+        return lista;}
 
 }

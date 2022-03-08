@@ -112,6 +112,7 @@ function mostrarResultado() {
 }
 
 function getResp(){
+    console.log("getResp");
     const respuestas = contenedor.querySelectorAll(".respuestas");
     //console.log(respuestas);
     let resp = [];
@@ -127,6 +128,7 @@ function getResp(){
         //console.log(resp);
         //localStorage.setItem("resp", JSON.stringify(resp));
         console.log(resp);
+        console.log("holaaa");
         
     });
     return resp;

@@ -56,8 +56,7 @@ public class CursoServiceImpl implements CursoService {
 
     @Override
     public String createNewCurso(CursoModel CursoF,HttpServletRequest request) {
-        //Obtenemos el id del Usuario que se logeo en este caso sera solo de administradores ya que solo ellos 
-        //Pueden crear cursos
+        //Obtenemos el id del Usuario que se logeo en este caso sera solo de administradores ya que solo ellos Pueden crear cursos
         Usuario user = new Usuario();
         HttpSession session = request.getSession();
         //Obtenemos por el id el Administrador que se logeo 
@@ -76,7 +75,7 @@ public class CursoServiceImpl implements CursoService {
 
                 //Creamos el Curso 
                 entidad = cursoDao.create(entidad);
-
+                System.out.println("entidad curso ser impl: " + entidad.getIdCurso());
                 //Relacion MuchosAMuchos en este caso solo relaciona los Adminitradores con el Curso que crearon
                 user.getCursos().add(entidad);
                 entidad.getUsuarios().add(user);
@@ -85,7 +84,8 @@ public class CursoServiceImpl implements CursoService {
                 //Almaceno en un variable global el id del curso que se creo en ese momento
                 session.setAttribute("CursoID", entidad.getIdCurso());
                 System.out.println("La Imagen se Guardo correctamente");
-                return "redirect:/anadirmodulos.html";
+                //return "redirect:/anadirmodulos.html";
+                return "redirect:/actualizarmodulos.html?CursoE=" + entidad.getIdCurso();
             } else {
                 System.out.println("Error al crear la imagen");
                 return "redirect:/errorCurso.html";

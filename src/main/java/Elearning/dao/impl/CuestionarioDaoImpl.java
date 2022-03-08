@@ -167,7 +167,6 @@ public class CuestionarioDaoImpl implements CuestionarioDao {
     
     @Override
     public boolean deleteMisCuestionarioByCuestionario(Cuestionario elCuestionario){
-        //System.out.println("el cuestionario delete: " + elCuestionario);
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction transaccion = session.getTransaction();
         boolean flag=true;
@@ -177,12 +176,9 @@ public class CuestionarioDaoImpl implements CuestionarioDao {
             Query miQuery;
             miQuery = session.createSQLQuery("delete from MiCuestionario where idCuestionario="+elCuestionario.getIdCuestionario());
             int resp = miQuery.executeUpdate();
-            System.out.println("resp: " + resp);
-            System.out.println("SE borraron los misCuestionarios By cuestionario");
             transaccion.commit();
 
         } catch (HibernateException e) {
-            System.out.println("Error delete misCuest by cuest: " + e);
             if (transaccion != null && transaccion.isActive()) {
                 transaccion.rollback();
             }

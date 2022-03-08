@@ -41,7 +41,8 @@ public class Cuestionario implements Serializable{
     private String nombre;
     
     //Relación MUCHOS a UNO con Modulo
-    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+    //era persist el primero
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.ALL,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
     @JoinColumn(name="idModulo")
     private Modulo idModulo_;
     

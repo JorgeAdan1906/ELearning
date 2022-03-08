@@ -96,17 +96,13 @@ public class CuestionarioServiceImpl implements CuestionarioService {
     @Override
     public boolean deleteCuestionario(int idCuestionario) {
         try{
-            //Crear el Cuestionario
             Cuestionario cuestionario = new Cuestionario();
-            //Recuperar por Id el Cuestionario ya existente
             cuestionario = cuestionarioDao.getCuestionario(idCuestionario);
             //Eliminar Cuestionario en la BD
             //if(cuestionarioDao.delete(cuestionario)){
             if(cuestionarioDao.deleteMisCuestionarioByCuestionario(cuestionario)){
-                //Retornar respuesta de exito
                 return true;
             } else 
-                //Retornar respuesta de error
                 return false;
         } catch(Exception e){
             //Retornar respuesta de error

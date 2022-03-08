@@ -1,6 +1,6 @@
 package Elearning.controler;
 
-import static Elearning.modelo.Cuestionario_.idCuestionario;
+//import static Elearning.modelo.Cuestionario_.idCuestionario;
 import Elearning.service.MiCuestionarioService;
 import java.text.DecimalFormat;
 import javax.swing.JOptionPane;

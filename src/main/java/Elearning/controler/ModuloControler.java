@@ -1,9 +1,12 @@
 package Elearning.controler;
 
+import Elearning.dao.CuestionarioDao;
 import Elearning.dao.ModuloDao;
+import Elearning.modelo.Cuestionario;
 import Elearning.modelo.Curso;
 import Elearning.modelo.Modulo;
 import Elearning.modelo.formModel.ModuloModel;
+import Elearning.service.CuestionarioService;
 import Elearning.service.ModuloService;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
@@ -23,7 +26,13 @@ public class ModuloControler {
     private ModuloService moduloService;
     
     @Autowired
+    private CuestionarioService cuestionarioService;
+    
+    @Autowired
     private ModuloDao moduloDao;
+    
+    @Autowired
+    private CuestionarioDao CuestionarioDao;
 
     @RequestMapping(value = "addModulo.html", method = RequestMethod.POST)
     public ModelAndView addModulo(@ModelAttribute ModuloModel moduloM, HttpServletRequest request) {
@@ -38,10 +47,10 @@ public class ModuloControler {
     }
 
     //Para el crud que esta al insertar los modulos
-    @RequestMapping(value = "anadirmodulos.html", method = RequestMethod.GET)
-    public String listadoModulo(Model model, HttpServletRequest request) {
-        return moduloService.readModuloMoment(model, request);
-    }
+//    @RequestMapping(value = "anadirmodulos.html", method = RequestMethod.GET)
+//    public String listadoModulo(Model model, HttpServletRequest request) {
+//        return moduloService.readModuloMoment(model, request);
+//    }
 
     //Este es la pagina para agregar mas modulos si se desea una vez acabando de crear el curso
     @RequestMapping(value = "actualizarmodulos.html", method = RequestMethod.GET)
@@ -58,6 +67,7 @@ public class ModuloControler {
             @RequestParam("url") MultipartFile url,
             @RequestParam("youtubeUrl") String youtubeUrl,
             @RequestParam("moduid") int idModulo) {
+        System.out.println("entra actualizarModulo.html en controler");
         return moduloService.updateModulo(VistaA, idModulo, titulo, descripcion, url, youtubeUrl);
     }
 
@@ -69,6 +79,7 @@ public class ModuloControler {
             @RequestParam("url") MultipartFile url,
             @RequestParam("youtubeUrl") String youtubeUrl,
             HttpServletRequest request) {
+        System.out.println("entra a anadirmodulos.html en controler");
         return moduloService.anadirModulos(titulo, descripcion, url, youtubeUrl, request);
     }
 
@@ -77,14 +88,15 @@ public class ModuloControler {
         ModelAndView mo = new ModelAndView();
         Curso curso = new Curso();
         Modulo mod = new Modulo();
-        
         mod = moduloDao.getModulo(ModuloE);
+        
         curso = mod.getIdCurso();
-     
+        
         if (moduloService.deleteModulo(ModuloE)) {
             System.out.println("Se elimino el modulo con ID: " + ModuloE);
             if (VistaB == 1) {
-                    mo.setViewName("redirect:/anadirmodulos.html");
+                    //mo.setViewName("redirect:/anadirmodulos.html");
+                    mo.setViewName("redirect:/actualizarmodulos.html?CursoE=" + curso.getIdCurso());
                 } else {
                 mo.setViewName("redirect:/actualizarmodulos.html?CursoE=" + curso.getIdCurso());
                 }
@@ -92,13 +104,21 @@ public class ModuloControler {
             System.out.println("No se ha borrado el modulo...");
             mo.setViewName("redirect:/actualizarmodulos.html?CursoE=" + curso.getIdCurso());
         }
-
+        
+        int idCuest;
+        try {
+            idCuest = CuestionarioDao.getIdByModulo(ModuloE);
+            System.out.println("idCuest modulo controler: " + idCuest);
+            if( idCuest > 0 ){
+                cuestionarioService.deleteCuestionario(idCuest);
+            } else{
+                System.out.println("El modulo no tiene cuestionario");
+            }
+        } catch (Exception e) {
+            System.out.println("error al delete cuest en moduloControler" + e) ;
+        }
         return mo;
     }
     
-    //Vistas de error Modulo
-    @RequestMapping(value = "primerosmodulos.html")
-    public String errorMo() {
-        return "primerosmodulos";
-    }
+    
 }

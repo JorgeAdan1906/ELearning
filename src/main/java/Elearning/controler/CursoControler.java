@@ -1,5 +1,9 @@
 package Elearning.controler;
 
+import Elearning.dao.CuestionarioDao;
+import Elearning.dao.ModuloDao;
+import Elearning.modelo.Cuestionario;
+import Elearning.modelo.Modulo;
 import Elearning.modelo.formModel.CursoModel;
 import Elearning.service.CursoService;
 import org.springframework.web.multipart.MultipartFile;
@@ -8,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +35,12 @@ public class CursoControler {
 
     @Autowired
     private CursoService cursoService;
+    
+    @Autowired
+    private CuestionarioDao CuestionarioDao;
+    
+    @Autowired
+    private ModuloDao ModuloDao;
 
     @RequestMapping(value = "nuevocurso.html", method = RequestMethod.GET)
     public ModelAndView nuevocurso() {
@@ -72,6 +83,32 @@ public class CursoControler {
             //DatosE = "¡Algo salio mal! No se ha podido borrar el curso...";
             //aux = "error";
             mo.setViewName("redirect:/error.html");
+        }
+        
+        //eliminar cuestionario, micuestionario
+        int idCuest;
+        List<Integer> listaModulos = null;
+        listaModulos =  ModuloDao.findIdsbyCurso(CursoE);
+        System.out.println("listaModulos: " + listaModulos);
+        int tamLista = listaModulos.size();
+        System.out.println("tamLista: " + tamLista);
+        Integer[] miarray = new Integer[tamLista];
+        miarray = listaModulos.toArray(miarray);
+        Cuestionario cuest = new Cuestionario();
+        try {
+            for(int i = 0; i < miarray.length; i++){
+                idCuest = CuestionarioDao.getIdByModulo(miarray[i]);
+                cuest.setIdCuestionario(idCuest);
+                //System.out.println("idCuest modulo controler: " + idCuest);
+                if( idCuest > 0 ){
+                    CuestionarioDao.deleteMisCuestionarioByCuestionario(cuest);
+                } else{
+                    System.out.println("El modulo no tiene cuestionario");
+                }
+            }
+            
+        } catch (Exception e) {
+            System.out.println("error al delete cuest en moduloControler");
         }
         /*
         model.addAttribute("Message", DatosE);
